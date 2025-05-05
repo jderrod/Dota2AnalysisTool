@@ -1,0 +1,3681 @@
+{
+  "match_id": 4070423361,
+  "barracks_status_dire": 51,
+  "barracks_status_radiant": 63,
+  "chat": [
+    {
+      "time": -61,
+      "type": "chat",
+      "unit": ".",
+      "key": "Glhf",
+      "slot": 9,
+      "player_slot": 132
+    },
+    {
+      "time": -59,
+      "type": "chat",
+      "unit": "Rubber",
+      "key": "gl hf",
+      "slot": 1,
+      "player_slot": 1
+    },
+    {
+      "time": -59,
+      "type": "chat",
+      "unit": "gh",
+      "key": "hf",
+      "slot": 3,
+      "player_slot": 3
+    },
+    {
+      "time": -58,
+      "type": "chat",
+      "unit": "Fluctuations",
+      "key": "glhf",
+      "slot": 5,
+      "player_slot": 128
+    },
+    {
+      "time": -56,
+      "type": "chat",
+      "unit": "Kuroky-IR",
+      "key": "glhf",
+      "slot": 2,
+      "player_slot": 2
+    },
+    {
+      "time": -17,
+      "type": "chatwheel",
+      "key": "12003",
+      "slot": 7,
+      "player_slot": 130
+    },
+    {
+      "time": -15,
+      "type": "chatwheel",
+      "key": "156",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": -14,
+      "type": "chatwheel",
+      "key": "65004",
+      "slot": 1,
+      "player_slot": 1
+    },
+    {
+      "time": -13,
+      "type": "chatwheel",
+      "key": "156",
+      "slot": 2,
+      "player_slot": 2
+    },
+    {
+      "time": -13,
+      "type": "chatwheel",
+      "key": "19002",
+      "slot": 5,
+      "player_slot": 128
+    },
+    {
+      "time": -12,
+      "type": "chatwheel",
+      "key": "156",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": -10,
+      "type": "chatwheel",
+      "key": "156",
+      "slot": 1,
+      "player_slot": 1
+    },
+    {
+      "time": 165,
+      "type": "chatwheel",
+      "key": "150",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 652,
+      "type": "chatwheel",
+      "key": "65001",
+      "slot": 1,
+      "player_slot": 1
+    },
+    {
+      "time": 873,
+      "type": "chatwheel",
+      "key": "53",
+      "slot": 9,
+      "player_slot": 132
+    },
+    {
+      "time": 1029,
+      "type": "chatwheel",
+      "key": "70",
+      "slot": 2,
+      "player_slot": 2
+    },
+    {
+      "time": 1465,
+      "type": "chatwheel",
+      "key": "53",
+      "slot": 9,
+      "player_slot": 132
+    },
+    {
+      "time": 1810,
+      "type": "chat",
+      "unit": "\u5a01\u5ba2\u7535\u7ade",
+      "key": "gg",
+      "slot": 7,
+      "player_slot": 130
+    },
+    {
+      "time": 1811,
+      "type": "chat",
+      "unit": ".",
+      "key": "gg",
+      "slot": 9,
+      "player_slot": 132
+    },
+    {
+      "time": 1811,
+      "type": "chat",
+      "unit": "gh",
+      "key": "Gg",
+      "slot": 3,
+      "player_slot": 3
+    },
+    {
+      "time": 1812,
+      "type": "chat",
+      "unit": "Rubber",
+      "key": "gg",
+      "slot": 1,
+      "player_slot": 1
+    },
+    {
+      "time": 1812,
+      "type": "chat",
+      "unit": "an naml",
+      "key": "gg",
+      "slot": 0,
+      "player_slot": 0
+    },
+    {
+      "time": 1813,
+      "type": "chat",
+      "unit": "dog player",
+      "key": "gg",
+      "slot": 8,
+      "player_slot": 131
+    },
+    {
+      "time": 1813,
+      "type": "chat",
+      "unit": "Kuroky-IR",
+      "key": "gege",
+      "slot": 2,
+      "player_slot": 2
+    },
+    {
+      "time": 1814,
+      "type": "chat",
+      "unit": "Fluctuations",
+      "key": "ggwp",
+      "slot": 5,
+      "player_slot": 128
+    }
+  ],
+  "cluster": 113,
+  "cosmetics": {
+    "647": 130,
+    "663": 1,
+    "4041": 132,
+    "4104": 129,
+    "4616": 130,
+    "4817": 1,
+    "5214": 132,
+    "5344": 0,
+    "5417": 129,
+    "5666": 2,
+    "5667": 2,
+    "5734": 132,
+    "5797": 129,
+    "6005": 3,
+    "6053": 131,
+    "6245": 129,
+    "6285": 129,
+    "6286": 129,
+    "6432": 3,
+    "6433": 3,
+    "6434": 3,
+    "6526": 3,
+    "6749": 129,
+    "6886": 128,
+    "6893": 2,
+    "6999": 128,
+    "7000": 128,
+    "7005": 128,
+    "7015": 1,
+    "7266": 128,
+    "7653": 2,
+    "7654": 2,
+    "7727": 1,
+    "7935": 3,
+    "8057": 129,
+    "8060": 1,
+    "8363": 129,
+    "8919": 0,
+    "8920": 0,
+    "9205": 132,
+    "9325": 132,
+    "9328": 132,
+    "9749": 0,
+    "10068": 128,
+    "11993": 4,
+    "12190": 132,
+    "12191": 132,
+    "12290": 1,
+    "16674": 0,
+    "17250": 130,
+    "17257": 0
+  },
+  "dire_score": 9,
+  "dire_team_id": 5026801,
+  "draft_timings": [
+    {
+      "order": 1,
+      "pick": false,
+      "active_team": 2,
+      "hero_id": 9,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 27
+    },
+    {
+      "order": 2,
+      "pick": false,
+      "active_team": 3,
+      "hero_id": 58,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 2
+    },
+    {
+      "order": 3,
+      "pick": false,
+      "active_team": 2,
+      "hero_id": 63,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 17
+    },
+    {
+      "order": 4,
+      "pick": false,
+      "active_team": 3,
+      "hero_id": 91,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 3
+    },
+    {
+      "order": 5,
+      "pick": false,
+      "active_team": 2,
+      "hero_id": 42,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 2
+    },
+    {
+      "order": 6,
+      "pick": false,
+      "active_team": 3,
+      "hero_id": 110,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 45
+    },
+    {
+      "order": 7,
+      "pick": true,
+      "active_team": 2,
+      "hero_id": 20,
+      "player_slot": 0,
+      "extra_time": 120,
+      "total_time_taken": 13
+    },
+    {
+      "order": 8,
+      "pick": true,
+      "active_team": 3,
+      "hero_id": 19,
+      "player_slot": 5,
+      "extra_time": 120,
+      "total_time_taken": 31
+    },
+    {
+      "order": 9,
+      "pick": true,
+      "active_team": 3,
+      "hero_id": 53,
+      "player_slot": 6,
+      "extra_time": 130,
+      "total_time_taken": 1
+    },
+    {
+      "order": 10,
+      "pick": true,
+      "active_team": 2,
+      "hero_id": 61,
+      "player_slot": 4,
+      "extra_time": 130,
+      "total_time_taken": 24
+    },
+    {
+      "order": 11,
+      "pick": false,
+      "active_team": 2,
+      "hero_id": 112,
+      "player_slot": null,
+      "extra_time": 120,
+      "total_time_taken": 9
+    },
+    {
+      "order": 12,
+      "pick": false,
+      "active_team": 3,
+      "hero_id": 56,
+      "player_slot": null,
+      "extra_time": 130,
+      "total_time_taken": 72
+    },
+    {
+      "order": 13,
+      "pick": false,
+      "active_team": 2,
+      "hero_id": 23,
+      "player_slot": null,
+      "extra_time": 84,
+      "total_time_taken": 1
+    },
+    {
+      "order": 14,
+      "pick": false,
+      "active_team": 3,
+      "hero_id": 45,
+      "player_slot": null,
+      "extra_time": 84,
+      "total_time_taken": 16
+    },
+    {
+      "order": 15,
+      "pick": true,
+      "active_team": 3,
+      "hero_id": 36,
+      "player_slot": 8,
+      "extra_time": 130,
+      "total_time_taken": 1
+    },
+    {
+      "order": 16,
+      "pick": true,
+      "active_team": 2,
+      "hero_id": 107,
+      "player_slot": 3,
+      "extra_time": 84,
+      "total_time_taken": 54
+    },
+    {
+      "order": 17,
+      "pick": true,
+      "active_team": 3,
+      "hero_id": 5,
+      "player_slot": 9,
+      "extra_time": 111,
+      "total_time_taken": 67
+    },
+    {
+      "order": 18,
+      "pick": true,
+      "active_team": 2,
+      "hero_id": 65,
+      "player_slot": 1,
+      "extra_time": 52,
+      "total_time_taken": 113
+    },
+    {
+      "order": 19,
+      "pick": false,
+      "active_team": 3,
+      "hero_id": 32,
+      "player_slot": null,
+      "extra_time": 32,
+      "total_time_taken": 75
+    },
+    {
+      "order": 20,
+      "pick": false,
+      "active_team": 2,
+      "hero_id": 73,
+      "player_slot": null,
+      "extra_time": 10,
+      "total_time_taken": 57
+    },
+    {
+      "order": 21,
+      "pick": true,
+      "active_team": 2,
+      "hero_id": 70,
+      "player_slot": 2,
+      "extra_time": 12,
+      "total_time_taken": 9
+    },
+    {
+      "order": 22,
+      "pick": true,
+      "active_team": 3,
+      "hero_id": 12,
+      "player_slot": 7,
+      "extra_time": 12,
+      "total_time_taken": 3
+    }
+  ],
+  "duration": 1819,
+  "engine": 1,
+  "first_blood_time": 50,
+  "game_mode": 2,
+  "human_players": 10,
+  "leagueid": 9870,
+  "lobby_type": 1,
+  "match_seq_num": 3531158212,
+  "negative_votes": 435,
+  "objectives": [
+    {
+      "time": 51,
+      "type": "CHAT_MESSAGE_FIRSTBLOOD",
+      "slot": 2,
+      "key": 9,
+      "player_slot": 2
+    },
+    {
+      "time": 472,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_goodguys_tower1_mid",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 796,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_badguys_tower1_mid",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 837,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_furion",
+      "key": "npc_dota_goodguys_tower1_bot",
+      "slot": 6,
+      "player_slot": 129
+    },
+    {
+      "time": 872,
+      "type": "CHAT_MESSAGE_ROSHAN_KILL",
+      "team": 2
+    },
+    {
+      "time": 873,
+      "type": "CHAT_MESSAGE_AEGIS",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1040,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_ursa",
+      "key": "npc_dota_badguys_tower1_top",
+      "slot": 2,
+      "player_slot": 2
+    },
+    {
+      "time": 1043,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_badguys_tower2_mid",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1129,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_badguys_tower1_bot",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1161,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_badguys_tower2_bot",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1174,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_furion",
+      "key": "npc_dota_goodguys_tower1_top",
+      "slot": 6,
+      "player_slot": 129
+    },
+    {
+      "time": 1464,
+      "type": "CHAT_MESSAGE_ROSHAN_KILL",
+      "team": 2
+    },
+    {
+      "time": 1465,
+      "type": "CHAT_MESSAGE_AEGIS",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1720,
+      "type": "building_kill",
+      "unit": "npc_dota_creep_badguys_ranged",
+      "key": "npc_dota_goodguys_tower2_top"
+    },
+    {
+      "time": 1737,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_ursa",
+      "key": "npc_dota_badguys_tower3_mid",
+      "slot": 2,
+      "player_slot": 2
+    },
+    {
+      "time": 1751,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_badguys_melee_rax_mid",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1781,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_broodmother",
+      "key": "npc_dota_badguys_range_rax_mid",
+      "slot": 4,
+      "player_slot": 4
+    },
+    {
+      "time": 1792,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_batrider",
+      "key": "npc_dota_badguys_tower4",
+      "slot": 1,
+      "player_slot": 1
+    },
+    {
+      "time": 1799,
+      "type": "building_kill",
+      "unit": "npc_dota_hero_earth_spirit",
+      "key": "npc_dota_badguys_tower4",
+      "slot": 3,
+      "player_slot": 3
+    },
+    {
+      "time": 1820,
+      "type": "building_kill",
+      "unit": "dota_unknown",
+      "key": "npc_dota_badguys_fort"
+    }
+  ],
+  "picks_bans": [
+    {
+      "is_pick": false,
+      "hero_id": 9,
+      "team": 0,
+      "order": 0
+    },
+    {
+      "is_pick": false,
+      "hero_id": 58,
+      "team": 1,
+      "order": 1
+    },
+    {
+      "is_pick": false,
+      "hero_id": 63,
+      "team": 0,
+      "order": 2
+    },
+    {
+      "is_pick": false,
+      "hero_id": 91,
+      "team": 1,
+      "order": 3
+    },
+    {
+      "is_pick": false,
+      "hero_id": 42,
+      "team": 0,
+      "order": 4
+    },
+    {
+      "is_pick": false,
+      "hero_id": 110,
+      "team": 1,
+      "order": 5
+    },
+    {
+      "is_pick": true,
+      "hero_id": 20,
+      "team": 0,
+      "order": 6
+    },
+    {
+      "is_pick": true,
+      "hero_id": 19,
+      "team": 1,
+      "order": 7
+    },
+    {
+      "is_pick": true,
+      "hero_id": 53,
+      "team": 1,
+      "order": 8
+    },
+    {
+      "is_pick": true,
+      "hero_id": 61,
+      "team": 0,
+      "order": 9
+    },
+    {
+      "is_pick": false,
+      "hero_id": 112,
+      "team": 0,
+      "order": 10
+    },
+    {
+      "is_pick": false,
+      "hero_id": 56,
+      "team": 1,
+      "order": 11
+    },
+    {
+      "is_pick": false,
+      "hero_id": 23,
+      "team": 0,
+      "order": 12
+    },
+    {
+      "is_pick": false,
+      "hero_id": 45,
+      "team": 1,
+      "order": 13
+    },
+    {
+      "is_pick": true,
+      "hero_id": 36,
+      "team": 1,
+      "order": 14
+    },
+    {
+      "is_pick": true,
+      "hero_id": 107,
+      "team": 0,
+      "order": 15
+    },
+    {
+      "is_pick": true,
+      "hero_id": 5,
+      "team": 1,
+      "order": 16
+    },
+    {
+      "is_pick": true,
+      "hero_id": 65,
+      "team": 0,
+      "order": 17
+    },
+    {
+      "is_pick": false,
+      "hero_id": 32,
+      "team": 1,
+      "order": 18
+    },
+    {
+      "is_pick": false,
+      "hero_id": 73,
+      "team": 0,
+      "order": 19
+    },
+    {
+      "is_pick": true,
+      "hero_id": 70,
+      "team": 0,
+      "order": 20
+    },
+    {
+      "is_pick": true,
+      "hero_id": 12,
+      "team": 1,
+      "order": 21
+    }
+  ],
+  "positive_votes": 8994,
+  "radiant_gold_adv": [
+    5,
+    268,
+    -40,
+    -227,
+    172,
+    357,
+    1630,
+    1800,
+    2238,
+    1724,
+    2024,
+    3632,
+    4103,
+    4448,
+    4890,
+    5647,
+    5940,
+    7398,
+    9548,
+    9967,
+    8670,
+    9103,
+    9187,
+    8924,
+    9172,
+    10560,
+    12022,
+    12561,
+    13179,
+    14374,
+    19750
+  ],
+  "radiant_score": 32,
+  "radiant_team_id": 2163,
+  "radiant_win": true,
+  "radiant_xp_adv": [
+    3,
+    -140,
+    -220,
+    -385,
+    -452,
+    -613,
+    -100,
+    231,
+    423,
+    9,
+    380,
+    2268,
+    2202,
+    2841,
+    4266,
+    5361,
+    6069,
+    8539,
+    9493,
+    9541,
+    6046,
+    4258,
+    4269,
+    5339,
+    5862,
+    8195,
+    9173,
+    12491,
+    13288,
+    17006,
+    23115
+  ],
+  "skill": null,
+  "start_time": 1534791992,
+  "teamfights": [
+    {
+      "start": 380,
+      "end": 422,
+      "last_death": 407,
+      "deaths": 3,
+      "players": [
+        {
+          "deaths_pos": {},
+          "ability_uses": {},
+          "ability_targets": {},
+          "item_uses": {
+            "ward_observer": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 0,
+          "healing": 0,
+          "gold_delta": 0,
+          "xp_delta": 244,
+          "xp_start": 1075,
+          "xp_end": 1303
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "batrider_sticky_napalm": 6,
+            "batrider_firefly": 1,
+            "batrider_flamebreak": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "flask": 1,
+            "magic_wand": 1,
+            "bottle": 1
+          },
+          "killed": {
+            "npc_dota_hero_crystal_maiden": 1,
+            "npc_dota_hero_furion": 1
+          },
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 1758,
+          "healing": 499,
+          "gold_delta": 538,
+          "xp_delta": 737,
+          "xp_start": 2042,
+          "xp_end": 2779
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "ursa_overpower": 1
+          },
+          "ability_targets": {},
+          "item_uses": {},
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 0,
+          "healing": 0,
+          "gold_delta": 360,
+          "xp_delta": 340,
+          "xp_start": 1358,
+          "xp_end": 1698
+        },
+        {
+          "deaths_pos": {
+            "170": {
+              "100": 1
+            }
+          },
+          "ability_uses": {
+            "earth_spirit_rolling_boulder": 1,
+            "earth_spirit_stone_caller": 3,
+            "earth_spirit_boulder_smash": 1,
+            "earth_spirit_geomagnetic_grip": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "magic_stick": 1,
+            "tpscroll": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 514,
+          "healing": 135,
+          "gold_delta": -33,
+          "xp_delta": 163,
+          "xp_start": 1117,
+          "xp_end": 1280
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "broodmother_spawn_spiderlings": 2,
+            "broodmother_spin_web": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "medallion_of_courage": 1,
+            "clarity": 1,
+            "soul_ring": 2,
+            "quelling_blade": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 0,
+          "healing": 0,
+          "gold_delta": 138,
+          "xp_delta": 311,
+          "xp_start": 2962,
+          "xp_end": 3240
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "tiny_craggy_exterior": 2,
+            "tiny_toss_tree": 1,
+            "tiny_avalanche": 1
+          },
+          "ability_targets": {},
+          "item_uses": {},
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 169,
+          "healing": 0,
+          "gold_delta": 363,
+          "xp_delta": 617,
+          "xp_start": 2949,
+          "xp_end": 3566
+        },
+        {
+          "deaths_pos": {
+            "174": {
+              "108": 1
+            }
+          },
+          "ability_uses": {},
+          "ability_targets": {},
+          "item_uses": {
+            "tango_single": 1,
+            "faerie_fire": 2,
+            "magic_stick": 1
+          },
+          "killed": {
+            "npc_dota_hero_earth_spirit": 1
+          },
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 483,
+          "healing": 320,
+          "gold_delta": 184,
+          "xp_delta": 176,
+          "xp_start": 1420,
+          "xp_end": 1596
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "phantom_lancer_spirit_lance": 3,
+            "phantom_lancer_doppelwalk": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "ring_of_aquila": 6,
+            "magic_wand": 1,
+            "flask": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 921,
+          "healing": 515,
+          "gold_delta": 195,
+          "xp_delta": 204,
+          "xp_start": 1944,
+          "xp_end": 2148
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "necrolyte_death_pulse": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "phase_boots": 3
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 112,
+          "healing": 82,
+          "gold_delta": 61,
+          "xp_delta": 47,
+          "xp_start": 1853,
+          "xp_end": 1884
+        },
+        {
+          "deaths_pos": {
+            "170": {
+              "98": 1
+            }
+          },
+          "ability_uses": {
+            "crystal_maiden_frostbite": 1,
+            "crystal_maiden_crystal_nova": 3
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "tango": 2,
+            "tpscroll": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 489,
+          "healing": 0,
+          "gold_delta": -62,
+          "xp_delta": 141,
+          "xp_start": 734,
+          "xp_end": 875
+        }
+      ]
+    },
+    {
+      "start": 1694,
+      "end": 1742,
+      "last_death": 1727,
+      "deaths": 3,
+      "players": [
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "vengefulspirit_wave_of_terror": 2,
+            "vengefulspirit_magic_missile": 1,
+            "vengefulspirit_nether_swap": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "ward_dispenser": 1,
+            "ward_sentry": 2,
+            "magic_wand": 1
+          },
+          "killed": {
+            "npc_dota_hero_necrolyte": 1
+          },
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 524,
+          "healing": 0,
+          "gold_delta": 504,
+          "xp_delta": 991,
+          "xp_start": 9119,
+          "xp_end": 10108
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "batrider_firefly": 1,
+            "batrider_sticky_napalm": 5,
+            "batrider_flamebreak": 2,
+            "batrider_flaming_lasso": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "blink": 1,
+            "crimson_guard": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 709,
+          "healing": 0,
+          "gold_delta": 362,
+          "xp_delta": 990,
+          "xp_start": 14223,
+          "xp_end": 15212
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "ursa_overpower": 4,
+            "ursa_earthshock": 4,
+            "ursa_enrage": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "phase_boots": 4,
+            "blink": 2,
+            "black_king_bar": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 2334,
+          "healing": 0,
+          "gold_delta": 467,
+          "xp_delta": 990,
+          "xp_start": 15614,
+          "xp_end": 16603
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "earth_spirit_stone_caller": 3,
+            "earth_spirit_boulder_smash": 2,
+            "earth_spirit_magnetize": 1,
+            "earth_spirit_geomagnetic_grip": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "spirit_vessel": 4
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 951,
+          "healing": 425,
+          "gold_delta": 351,
+          "xp_delta": 991,
+          "xp_start": 9793,
+          "xp_end": 10782
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "broodmother_insatiable_hunger": 1,
+            "broodmother_spin_web": 1,
+            "broodmother_spawn_spiderlings": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "soul_ring": 2,
+            "medallion_of_courage": 1,
+            "diffusal_blade": 1
+          },
+          "killed": {
+            "npc_dota_hero_crystal_maiden": 1,
+            "npc_dota_hero_phantom_lancer": 1
+          },
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 1923,
+          "healing": 1868,
+          "gold_delta": 721,
+          "xp_delta": 991,
+          "xp_start": 16608,
+          "xp_end": 17597
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "tiny_craggy_exterior": 2,
+            "tiny_avalanche": 2,
+            "tiny_toss_tree": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "power_treads": 38,
+            "tpscroll": 1,
+            "blink": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 534,
+          "healing": 0,
+          "gold_delta": 221,
+          "xp_delta": 199,
+          "xp_start": 12351,
+          "xp_end": 12550
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "furion_wrath_of_nature": 1,
+            "furion_sprout": 1,
+            "furion_force_of_nature": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "tpscroll": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 0,
+          "healing": 0,
+          "gold_delta": 245,
+          "xp_delta": 480,
+          "xp_start": 6587,
+          "xp_end": 7067
+        },
+        {
+          "deaths_pos": {
+            "162": {
+              "154": 1
+            }
+          },
+          "ability_uses": {
+            "phantom_lancer_doppelwalk": 3,
+            "phantom_lancer_spirit_lance": 2
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "diffusal_blade": 1,
+            "manta": 1,
+            "magic_wand": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 1103,
+          "healing": 210,
+          "gold_delta": -175,
+          "xp_delta": 150,
+          "xp_start": 13459,
+          "xp_end": 13609
+        },
+        {
+          "deaths_pos": {
+            "158": {
+              "156": 1
+            }
+          },
+          "ability_uses": {
+            "necrolyte_death_pulse": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "phase_boots": 5,
+            "cyclone": 1,
+            "tpscroll": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 1,
+          "damage": 1392,
+          "healing": 120,
+          "gold_delta": -927,
+          "xp_delta": 248,
+          "xp_start": 12789,
+          "xp_end": 13037
+        },
+        {
+          "deaths_pos": {
+            "160": {
+              "158": 1
+            }
+          },
+          "ability_uses": {
+            "crystal_maiden_crystal_nova": 2
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "magic_stick": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 190,
+          "healing": 150,
+          "gold_delta": 94,
+          "xp_delta": 136,
+          "xp_start": 6897,
+          "xp_end": 7033
+        }
+      ]
+    },
+    {
+      "start": 1751,
+      "end": 1794,
+      "last_death": 1779,
+      "deaths": 4,
+      "players": [
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "vengefulspirit_wave_of_terror": 2,
+            "vengefulspirit_magic_missile": 1,
+            "vengefulspirit_nether_swap": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "medallion_of_courage": 2,
+            "magic_wand": 1,
+            "clarity": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 1029,
+          "healing": 0,
+          "gold_delta": 621,
+          "xp_delta": 1474,
+          "xp_start": 10121,
+          "xp_end": 11592
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "batrider_sticky_napalm": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "blink": 2,
+            "crimson_guard": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 0,
+          "healing": 0,
+          "gold_delta": 1012,
+          "xp_delta": 568,
+          "xp_start": 15339,
+          "xp_end": 15905
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "ursa_overpower": 3,
+            "ursa_earthshock": 3,
+            "ursa_enrage": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "blink": 1,
+            "phase_boots": 2,
+            "cheese": 1
+          },
+          "killed": {
+            "npc_dota_hero_crystal_maiden": 1,
+            "npc_dota_hero_tiny": 1,
+            "npc_dota_hero_furion": 1,
+            "npc_dota_hero_necrolyte": 1
+          },
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 3546,
+          "healing": 0,
+          "gold_delta": 1596,
+          "xp_delta": 1474,
+          "xp_start": 16616,
+          "xp_end": 18087
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "earth_spirit_stone_caller": 4,
+            "earth_spirit_geomagnetic_grip": 2,
+            "earth_spirit_boulder_smash": 2,
+            "earth_spirit_rolling_boulder": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "spirit_vessel": 4,
+            "magic_stick": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 1429,
+          "healing": 541,
+          "gold_delta": 633,
+          "xp_delta": 1474,
+          "xp_start": 10795,
+          "xp_end": 12266
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "broodmother_spawn_spiderlings": 1,
+            "broodmother_insatiable_hunger": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "diffusal_blade": 2,
+            "power_treads": 6,
+            "medallion_of_courage": 2,
+            "black_king_bar": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 1433,
+          "healing": 0,
+          "gold_delta": 829,
+          "xp_delta": 1474,
+          "xp_start": 17610,
+          "xp_end": 19081
+        },
+        {
+          "deaths_pos": {
+            "156": {
+              "156": 1
+            }
+          },
+          "ability_uses": {
+            "tiny_craggy_exterior": 1,
+            "tiny_avalanche": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "power_treads": 13,
+            "blink": 1,
+            "invis_sword": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 308,
+          "healing": 0,
+          "gold_delta": -310,
+          "xp_delta": 31,
+          "xp_start": 12667,
+          "xp_end": 12698
+        },
+        {
+          "deaths_pos": {
+            "158": {
+              "158": 1
+            }
+          },
+          "ability_uses": {
+            "furion_wrath_of_nature": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "medallion_of_courage": 1,
+            "spirit_vessel": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 879,
+          "healing": 0,
+          "gold_delta": 102,
+          "xp_delta": 78,
+          "xp_start": 7067,
+          "xp_end": 7145
+        },
+        {
+          "deaths_pos": {},
+          "ability_uses": {
+            "phantom_lancer_doppelwalk": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "manta": 1
+          },
+          "killed": {},
+          "deaths": 0,
+          "buybacks": 0,
+          "damage": 30,
+          "healing": 0,
+          "gold_delta": 0,
+          "xp_delta": 114,
+          "xp_start": 13609,
+          "xp_end": 13723
+        },
+        {
+          "deaths_pos": {
+            "164": {
+              "158": 1
+            }
+          },
+          "ability_uses": {
+            "necrolyte_death_pulse": 3,
+            "necrolyte_sadist": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "phase_boots": 4,
+            "cyclone": 1,
+            "magic_wand": 2
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 3073,
+          "healing": 794,
+          "gold_delta": -261,
+          "xp_delta": 135,
+          "xp_start": 13037,
+          "xp_end": 13172
+        },
+        {
+          "deaths_pos": {
+            "160": {
+              "154": 1
+            }
+          },
+          "ability_uses": {
+            "crystal_maiden_crystal_nova": 1
+          },
+          "ability_targets": {},
+          "item_uses": {
+            "tpscroll": 1
+          },
+          "killed": {},
+          "deaths": 1,
+          "buybacks": 0,
+          "damage": 190,
+          "healing": 0,
+          "gold_delta": -87,
+          "xp_delta": 50,
+          "xp_start": 7033,
+          "xp_end": 7083
+        }
+      ]
+    }
+  ],
+  "tower_status_dire": 262,
+  "tower_status_radiant": 1972,
+  "version": 21,
+  "players": [
+    {
+      "match_id": 4070423361,
+      "player_slot": 0,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 82262664,
+      "actions": null,
+      "additional_units": null,
+      "assists": 16,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 3,
+      "denies": 1,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 266,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 20,
+      "item_0": 43,
+      "item_1": 214,
+      "item_2": 244,
+      "item_3": 36,
+      "item_4": 187,
+      "item_5": 46,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 1,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 34,
+      "leaver_status": 0,
+      "level": 16,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 4659,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 394,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 0,
+      "team_slot": 0,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "an najm",
+      "name": "KuroKy",
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": true,
+      "win": 1,
+      "lose": 0,
+      "total_gold": 8064,
+      "total_xp": 11944,
+      "kills_per_min": 0.032985156679494226,
+      "kda": 4.25,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 5344,
+          "name": "Scree'Auk's Talon",
+          "prefab": "wearable",
+          "creation_date": "2013-07-23T00:00:00.000Z",
+          "image_inventory": "econ/items/vengeful/vengeful_immortal_weapon/vengeful_immortal_weapon",
+          "image_path": "icons/econ/items/vengeful/vengeful_immortal_weapon/vengeful_immortal_weapon.6390049ff8aea8b8d54611937b55fd02a710519e.png",
+          "item_description": "#DOTA_Item_Desc_ScreeAuks_Talon",
+          "item_name": "#DOTA_Item_ScreeAuks_Talon",
+          "item_rarity": "immortal",
+          "item_type_name": null,
+          "used_by_heroes": "npc_dota_hero_vengefulspirit"
+        },
+        {
+          "item_id": 8919,
+          "name": "Helm of Echoes",
+          "prefab": "wearable",
+          "creation_date": "2015-05-29T00:00:00.000Z",
+          "image_inventory": "econ/items/vengefulspirit/echoes_eyrie_head/echoes_eyrie_head",
+          "image_path": "icons/econ/items/vengefulspirit/echoes_eyrie_head/echoes_eyrie_head.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Helm_of_Echoes",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Helmet",
+          "used_by_heroes": "npc_dota_hero_vengefulspirit"
+        },
+        {
+          "item_id": 8920,
+          "name": "Greaves of Echoes",
+          "prefab": "wearable",
+          "creation_date": "2015-05-29T00:00:00.000Z",
+          "image_inventory": "econ/items/vengefulspirit/echoes_eyrie_legs/echoes_eyrie_legs",
+          "image_path": "icons/econ/items/vengefulspirit/echoes_eyrie_legs/echoes_eyrie_legs.4175a2d0929da15163e4787570bd5772bfdffeab.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Greaves_of_Echoes",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Legs",
+          "used_by_heroes": "npc_dota_hero_vengefulspirit"
+        },
+        {
+          "item_id": 9749,
+          "name": "Mournful Reverie",
+          "prefab": "wearable",
+          "creation_date": "2018-03-29T00:00:00.000Z",
+          "image_inventory": "econ/items/vengefulspirit/vs_ti8_immortal_shoulder/vs_ti8_immortal_shoulder",
+          "image_path": "icons/econ/items/vengefulspirit/vs_ti8_immortal_shoulder/vs_ti8_immortal_shoulder.2ace09638e3289723ea6f35a28decfe0f0ec5dfb.png",
+          "item_description": "#DOTA_Item_Desc_Mournful_Reverie",
+          "item_name": "#DOTA_Item_Mournful_Reverie",
+          "item_rarity": "immortal",
+          "item_type_name": "#DOTA_WearableType_Shoulder",
+          "used_by_heroes": "npc_dota_hero_vengefulspirit"
+        },
+        {
+          "item_id": 16674,
+          "name": "In-Game Effects Liquid",
+          "prefab": "tool",
+          "creation_date": "2016-07-27T00:00:00.000Z",
+          "image_inventory": "econ/testitem_slot_empty",
+          "image_path": "icons/econ/testitem_slot_empty.9ae65324bc948eba453c8f17be8e74c7362c80c0.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_InGame_Effects_Liquid",
+          "item_rarity": "arcana",
+          "item_type_name": null,
+          "used_by_heroes": null
+        },
+        {
+          "item_id": 17257,
+          "name": "Amaterasu",
+          "prefab": "courier",
+          "creation_date": "2017-11-27T00:00:00.000Z",
+          "image_inventory": "econ/items/courier/amaterasu/amaterasu",
+          "image_path": "icons/econ/items/courier/amaterasu/amaterasu.6cfa267b4fc59fc3b34d77660c61b68d70cbe950.png",
+          "item_description": "#DOTA_Item_Desc_Amaterasu",
+          "item_name": "#DOTA_Item_Amaterasu",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Courier",
+          "used_by_heroes": null
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 266,
+          "pct": 0.15279241306638566
+        },
+        "xp_per_min": {
+          "raw": 394,
+          "pct": 0.16227608008429925
+        },
+        "kills_per_min": {
+          "raw": 0.032985156679494226,
+          "pct": 0.14805057955742887
+        },
+        "last_hits_per_min": {
+          "raw": 1.1214953271028036,
+          "pct": 0.3714436248682824
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.6269757639620653
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 1,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 34505203,
+      "actions": null,
+      "additional_units": null,
+      "assists": 9,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 1,
+      "denies": 5,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 540,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 65,
+      "item_0": 214,
+      "item_1": 1,
+      "item_2": 242,
+      "item_3": 100,
+      "item_4": 46,
+      "item_5": 131,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 9,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 196,
+      "leaver_status": 0,
+      "level": 19,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 14576,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 536,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 0,
+      "team_slot": 1,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "gGg",
+      "name": "mc",
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": true,
+      "win": 1,
+      "lose": 0,
+      "total_gold": 16371,
+      "total_xp": 16249,
+      "kills_per_min": 0.29686641011544807,
+      "kda": 9,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 4817,
+          "name": "Rough Rider's Muggin' Mask",
+          "prefab": "wearable",
+          "creation_date": null,
+          "image_inventory": "econ/items/batrider/head_ruff/head_ruff",
+          "image_path": "icons/econ/items/batrider/head_ruff/head_ruff.7829a85aae7c449bea630fe8b164b12dac6e9b47.png",
+          "item_description": "#DOTA_Item_Desc_Rough_Riders_Muggin_Mask",
+          "item_name": "#DOTA_Item_Rough_Riders_Muggin_Mask",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Mask",
+          "used_by_heroes": "npc_dota_hero_batrider"
+        },
+        {
+          "item_id": 7015,
+          "name": "Firestarter Fuel Cannister",
+          "prefab": "wearable",
+          "creation_date": "2014-07-21T00:00:00.000Z",
+          "image_inventory": "econ/items/batrider/firestarter_cannister/firestarter_cannister",
+          "image_path": "icons/econ/items/batrider/firestarter_cannister/firestarter_cannister.eddb1599be560838b710cdd707658eface923a1c.png",
+          "item_description": "#DOTA_Item_Desc_Firestarter_Fuel_Cannister",
+          "item_name": "#DOTA_Item_Firestarter_Fuel_Cannister",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Fuel_Cannister",
+          "used_by_heroes": "npc_dota_hero_batrider"
+        },
+        {
+          "item_id": 7727,
+          "name": "Belt of the Manta Marauder",
+          "prefab": "wearable",
+          "creation_date": "2017-05-16T00:00:00.000Z",
+          "image_inventory": "econ/items/batrider/manta_rayder_ti7_belt/manta_rayder_ti7_belt",
+          "image_path": "icons/econ/items/batrider/manta_rayder_ti7_belt/manta_rayder_ti7_belt.a7ede0d1767a14d73a2494d502a86c6e1a4d134c.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Belt_of_the_Manta_Marauder",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Belt",
+          "used_by_heroes": "npc_dota_hero_batrider"
+        },
+        {
+          "item_id": 8060,
+          "name": "Taunt: Hang Loose!",
+          "prefab": "taunt",
+          "creation_date": "2015-02-25T00:00:00.000Z",
+          "image_inventory": "econ/taunts/taunt_icon_batrider_hang_loose",
+          "image_path": "icons/econ/taunts/taunt_icon_batrider_hang_loose.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": "#DOTA_Item_Desc_Taunt_Hang_Loose",
+          "item_name": "#DOTA_Item_Taunt_Hang_Loose",
+          "item_rarity": "rare",
+          "item_type_name": null,
+          "used_by_heroes": "npc_dota_hero_batrider"
+        },
+        {
+          "item_id": 12290,
+          "name": "Ghastly Nocturne",
+          "prefab": "wearable",
+          "creation_date": "2018-07-30T00:00:00.000Z",
+          "image_inventory": "econ/items/batrider/batrider_ti8_immortal_mount/batrider_ti8_immortal_mount",
+          "image_path": "icons/econ/items/batrider/batrider_ti8_immortal_mount/batrider_ti8_immortal_mount.0e21e0f4242e283466df420c6d16aeae34f276f7.png",
+          "item_description": "#DOTA_Item_Desc_Ghastly_Nocturne",
+          "item_name": "#DOTA_Item_Ghastly_Nocturne",
+          "item_rarity": "immortal",
+          "item_type_name": "#DOTA_WearableType_Mount",
+          "used_by_heroes": "npc_dota_hero_batrider"
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 540,
+          "pct": 0.8758620689655172
+        },
+        "xp_per_min": {
+          "raw": 536,
+          "pct": 0.3896551724137931
+        },
+        "kills_per_min": {
+          "raw": 0.29686641011544807,
+          "pct": 0.8758620689655172
+        },
+        "last_hits_per_min": {
+          "raw": 6.465090709180868,
+          "pct": 0.9482758620689655
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0.006896551724137931
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.8137931034482758
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 2,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 105248644,
+      "actions": null,
+      "additional_units": null,
+      "assists": 4,
+      "backpack_0": 0,
+      "backpack_1": 46,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 2,
+      "denies": 13,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 604,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 70,
+      "item_0": 1,
+      "item_1": 145,
+      "item_2": 116,
+      "item_3": 143,
+      "item_4": 50,
+      "item_5": 212,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 12,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 217,
+      "leaver_status": 0,
+      "level": 21,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 17314,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 610,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 0,
+      "team_slot": 2,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "sxs",
+      "name": "Miracle-",
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": true,
+      "win": 1,
+      "lose": 0,
+      "total_gold": 18311,
+      "total_xp": 18493,
+      "kills_per_min": 0.3958218801539307,
+      "kda": 5.33,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 5666,
+          "name": "Roshan Hunter Back",
+          "prefab": "wearable",
+          "creation_date": "2013-11-08T00:00:00.000Z",
+          "image_inventory": "econ/items/ursa/roshanhunter_ursa_back/roshanhunter_ursa_back",
+          "image_path": "icons/econ/items/ursa/roshanhunter_ursa_back/roshanhunter_ursa_back.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Roshan_Hunter_Back",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Back",
+          "used_by_heroes": "npc_dota_hero_ursa"
+        },
+        {
+          "item_id": 5667,
+          "name": "Roshan Hunter Belt",
+          "prefab": "wearable",
+          "creation_date": "2013-11-08T00:00:00.000Z",
+          "image_inventory": "econ/items/ursa/roshanhunter_ursa_belt/roshanhunter_ursa_belt",
+          "image_path": "icons/econ/items/ursa/roshanhunter_ursa_belt/roshanhunter_ursa_belt.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Roshan_Hunter_Belt",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Belt",
+          "used_by_heroes": "npc_dota_hero_ursa"
+        },
+        {
+          "item_id": 6893,
+          "name": "Swift Claw",
+          "prefab": "wearable",
+          "creation_date": "2014-07-02T00:00:00.000Z",
+          "image_inventory": "econ/items/ursa/swift_claw_ursa_arms/ursa_swift_claw",
+          "image_path": "icons/econ/items/ursa/swift_claw_ursa_arms/ursa_swift_claw.372ff4f02863f4dccadc9ef8065dea1a3ef091e1.png",
+          "item_description": "#DOTA_Item_Desc_Swift_Claw",
+          "item_name": "#DOTA_Item_Swift_Claw",
+          "item_rarity": "immortal",
+          "item_type_name": "#DOTA_WearableType_Bracer",
+          "used_by_heroes": "npc_dota_hero_ursa"
+        },
+        {
+          "item_id": 7653,
+          "name": "Helm of the Ferocious Heart",
+          "prefab": "wearable",
+          "creation_date": "2015-08-31T00:00:00.000Z",
+          "image_inventory": "econ/items/ursa/fierce_heart_head/fierce_heart_head",
+          "image_path": "icons/econ/items/ursa/fierce_heart_head/fierce_heart_head.4a3a14a64b409dcbc4bf706b9fb28ca9122457b5.png",
+          "item_description": "#DOTA_Item_Desc_fierce_heart_head",
+          "item_name": "#DOTA_Item_Helm_of_the_Ferocious_Heart",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Helm",
+          "used_by_heroes": "npc_dota_hero_ursa"
+        },
+        {
+          "item_id": 7654,
+          "name": "Claws of the Ferocious Heart",
+          "prefab": "wearable",
+          "creation_date": "2015-08-31T00:00:00.000Z",
+          "image_inventory": "econ/items/ursa/fierce_heart_weapon/fierce_heart_weapon",
+          "image_path": "icons/econ/items/ursa/fierce_heart_weapon/fierce_heart_weapon.239c57373b9737ed7b73d78c61c62e0fd4de9563.png",
+          "item_description": "#DOTA_Item_Desc_Claws_of_the_Ferocious_Heart",
+          "item_name": "#DOTA_Item_Claws_of_the_Ferocious_Heart",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Claws",
+          "used_by_heroes": "npc_dota_hero_ursa"
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 604,
+          "pct": 0.5424528301886793
+        },
+        "xp_per_min": {
+          "raw": 610,
+          "pct": 0.22641509433962265
+        },
+        "kills_per_min": {
+          "raw": 0.39582188015393077,
+          "pct": 0.735062893081761
+        },
+        "last_hits_per_min": {
+          "raw": 7.157778999450247,
+          "pct": 0.6147798742138365
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0.00039308176100628933
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.9520440251572327
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 3,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 101356886,
+      "actions": null,
+      "additional_units": null,
+      "assists": 24,
+      "backpack_0": 38,
+      "backpack_1": 188,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 2,
+      "denies": 1,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 274,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 107,
+      "item_0": 214,
+      "item_1": 267,
+      "item_2": 34,
+      "item_3": 181,
+      "item_4": 46,
+      "item_5": 244,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 2,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 27,
+      "leaver_status": 0,
+      "level": 16,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 7821,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 416,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 0,
+      "team_slot": 3,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "gh",
+      "name": "GH",
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": true,
+      "win": 1,
+      "lose": 0,
+      "total_gold": 8306,
+      "total_xp": 12611,
+      "kills_per_min": 0.06597031335898845,
+      "kda": 8.67,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 6005,
+          "name": "Necklace of the Demon Stone",
+          "prefab": "wearable",
+          "creation_date": "2014-01-22T00:00:00.000Z",
+          "image_inventory": "econ/items/earth_spirit/demon_stone_necklace/demon_stone_necklace",
+          "image_path": "icons/econ/items/earth_spirit/demon_stone_necklace/demon_stone_necklace.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Necklace_of_the_Demon_Stone",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Necklace",
+          "used_by_heroes": "npc_dota_hero_earth_spirit"
+        },
+        {
+          "item_id": 6432,
+          "name": "Vanquishing Demons Geomagnetic Arm Guard",
+          "prefab": "wearable",
+          "creation_date": "2014-04-22T00:00:00.000Z",
+          "image_inventory": "econ/items/earth_spirit/vanquishing_demons_arms/vanquishing_demons_arms",
+          "image_path": "icons/econ/items/earth_spirit/vanquishing_demons_arms/vanquishing_demons_arms.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": "#DOTA_Item_Desc_vanquishing_demons_arms",
+          "item_name": "#DOTA_Item_Vanquishing_Demons_Geomagnetic_Arm_Guard",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Arm_Guards",
+          "used_by_heroes": "npc_dota_hero_earth_spirit"
+        },
+        {
+          "item_id": 6433,
+          "name": "Vanquishing Demons Earthcore Belt",
+          "prefab": "wearable",
+          "creation_date": "2014-04-22T00:00:00.000Z",
+          "image_inventory": "econ/items/earth_spirit/vanquishing_demons_belt/vanquishing_demons_belt",
+          "image_path": "icons/econ/items/earth_spirit/vanquishing_demons_belt/vanquishing_demons_belt.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Vanquishing_Demons_Earthcore_Belt",
+          "item_rarity": "uncommon",
+          "item_type_name": "#DOTA_WearableType_Belt",
+          "used_by_heroes": "npc_dota_hero_earth_spirit"
+        },
+        {
+          "item_id": 6434,
+          "name": "Vanquishing Demons Ritual Headgear",
+          "prefab": "wearable",
+          "creation_date": "2014-04-22T00:00:00.000Z",
+          "image_inventory": "econ/items/earth_spirit/vanquishing_demons_helmet/vanquishing_demons_helmet",
+          "image_path": "icons/econ/items/earth_spirit/vanquishing_demons_helmet/vanquishing_demons_helmet.aaa24d1d0e32c68d8e844f8c4bb768f81a58e4a1.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Vanquishing_Demons_Ritual_Headgear",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Helmet",
+          "used_by_heroes": "npc_dota_hero_earth_spirit"
+        },
+        {
+          "item_id": 6526,
+          "name": "Stone Monkey Spirits",
+          "prefab": "wearable",
+          "creation_date": "2014-05-02T00:00:00.000Z",
+          "image_inventory": "econ/items/earth_spirit/vanquishing_demons_summon/vanquishing_demon_summon",
+          "image_path": "icons/econ/items/earth_spirit/vanquishing_demons_summon/vanquishing_demon_summon.cf04719674c48146ef6126cfaae4d36c0b8c73ea.png",
+          "item_description": "#DOTA_Item_Desc_Stone_Monkey_Spirit",
+          "item_name": "#DOTA_Item_Stone_Monkey_Spirits",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Remnants",
+          "used_by_heroes": "npc_dota_hero_earth_spirit"
+        },
+        {
+          "item_id": 7935,
+          "name": "Jade Reckoning",
+          "prefab": "wearable",
+          "creation_date": "2016-05-20T00:00:00.000Z",
+          "image_inventory": "econ/items/earth_spirit/jade_reckoning_v2/mesh/jade_reckoning_v2",
+          "image_path": "icons/econ/items/earth_spirit/jade_reckoning_v2/mesh/jade_reckoning_v2.152b70773627f6d894169fb1c346924b11b7f988.png",
+          "item_description": "#DOTA_Item_Desc_Jade_Reckoning",
+          "item_name": "#DOTA_Item_Jade_Reckoning",
+          "item_rarity": "immortal",
+          "item_type_name": "#DOTA_WearableType_Staff",
+          "used_by_heroes": "npc_dota_hero_earth_spirit"
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 274,
+          "pct": 0.12162162162162163
+        },
+        "xp_per_min": {
+          "raw": 416,
+          "pct": 0.20945945945945946
+        },
+        "kills_per_min": {
+          "raw": 0.06597031335898845,
+          "pct": 0.22128378378378377
+        },
+        "last_hits_per_min": {
+          "raw": 0.8905992303463441,
+          "pct": 0.08783783783783784
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0.0016891891891891893
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.5050675675675675
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 4,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 72312627,
+      "actions": null,
+      "additional_units": null,
+      "assists": 5,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 1,
+      "denies": 5,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 619,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 61,
+      "item_0": 187,
+      "item_1": 178,
+      "item_2": 112,
+      "item_3": 174,
+      "item_4": 63,
+      "item_5": 116,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 8,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 257,
+      "leaver_status": 0,
+      "level": 21,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 17933,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 641,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 0,
+      "team_slot": 4,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "kimchi",
+      "name": null,
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": true,
+      "win": 1,
+      "lose": 0,
+      "total_gold": 18766,
+      "total_xp": 19432,
+      "kills_per_min": 0.2638812534359538,
+      "kda": 6.5,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 11993,
+          "name": "The Eyes of the King",
+          "prefab": "ward",
+          "creation_date": "2017-01-16T00:00:00.000Z",
+          "image_inventory": "econ/items/wards/the_monkey_sentinel/the_monkey_sentinel_npc_dota_observer_wards",
+          "image_path": "icons/econ/items/wards/the_monkey_sentinel/the_monkey_sentinel_npc_dota_observer_wards.5384e45a0a533c6df73234362489202096b0a7aa.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_The_Eyes_of_the_King",
+          "item_rarity": "rare",
+          "item_type_name": null,
+          "used_by_heroes": null
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 619,
+          "pct": 0.6609442060085837
+        },
+        "xp_per_min": {
+          "raw": 641,
+          "pct": 0.34549356223175964
+        },
+        "kills_per_min": {
+          "raw": 0.2638812534359538,
+          "pct": 0.6416309012875536
+        },
+        "last_hits_per_min": {
+          "raw": 8.477185266630016,
+          "pct": 0.8927038626609443
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0.002145922746781116
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.9871244635193133
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 128,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 221666230,
+      "actions": null,
+      "additional_units": null,
+      "assists": 0,
+      "backpack_0": 0,
+      "backpack_1": 11,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 4,
+      "denies": 12,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 371,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 19,
+      "item_0": 63,
+      "item_1": 252,
+      "item_2": 152,
+      "item_3": 1,
+      "item_4": 212,
+      "item_5": 46,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 2,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 259,
+      "leaver_status": 1,
+      "level": 17,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 10476,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 418,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 1,
+      "team_slot": 0,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "TLD",
+      "name": "Quinn",
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": false,
+      "win": 0,
+      "lose": 1,
+      "total_gold": 11247,
+      "total_xp": 12672,
+      "kills_per_min": 0.06597031335898845,
+      "kda": 0.4,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 6886,
+          "name": "Garnet of the Scarlet Quarry ",
+          "prefab": "wearable",
+          "creation_date": "2014-08-20T00:00:00.000Z",
+          "image_inventory": "econ/items/tiny/scarletquarry_arms/scarletquarry_arms",
+          "image_path": "icons/econ/items/tiny/scarletquarry_arms/scarletquarry_arms.ff514c57027b525a8d3d975fb06c6133cb5e4725.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Garnet_of_the_Scarlet_Quarry_",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Arm",
+          "used_by_heroes": "npc_dota_hero_tiny"
+        },
+        {
+          "item_id": 6999,
+          "name": "Summit of the Scarlet Quarry",
+          "prefab": "wearable",
+          "creation_date": "2014-08-20T00:00:00.000Z",
+          "image_inventory": "econ/items/tiny/scarletquarry_head/scarletquarry_head",
+          "image_path": "icons/econ/items/tiny/scarletquarry_head/scarletquarry_head.46352d1d0c02d8204a186b9d7ee7802364b65f2d.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Summit_of_the_Scarlet_Quarry",
+          "item_rarity": "uncommon",
+          "item_type_name": "#DOTA_WearableType_Head",
+          "used_by_heroes": "npc_dota_hero_tiny"
+        },
+        {
+          "item_id": 7000,
+          "name": "Slab of the Scarlet Quarry ",
+          "prefab": "wearable",
+          "creation_date": "2014-08-20T00:00:00.000Z",
+          "image_inventory": "econ/items/tiny/scarletquarry_armor/scarletquarry_armor",
+          "image_path": "icons/econ/items/tiny/scarletquarry_armor/scarletquarry_armor.c5e6fe149800c8f4017bc5af6f44fa7867a35363.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Slab_of_the_Scarlet_Quarry_",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Armor",
+          "used_by_heroes": "npc_dota_hero_tiny"
+        },
+        {
+          "item_id": 7005,
+          "name": "Scarlet Oak",
+          "prefab": "wearable",
+          "creation_date": "2014-08-20T00:00:00.000Z",
+          "image_inventory": "econ/items/tiny/scarletquarry_weapon/scarletquarry_weapon",
+          "image_path": "icons/econ/items/tiny/scarletquarry_weapon/scarletquarry_weapon.db6e979dacc9c7e35db14943324ae9ee003bef3d.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Scarlet_Oak",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Tree",
+          "used_by_heroes": "npc_dota_hero_tiny"
+        },
+        {
+          "item_id": 7266,
+          "name": "Right Arm of the Igneous Stone",
+          "prefab": "wearable",
+          "creation_date": "2014-12-08T00:00:00.000Z",
+          "image_inventory": "econ/items/tiny/burning_stone_giant_right_arm/burning_stone_giant_right_arm",
+          "image_path": "icons/econ/items/tiny/burning_stone_giant_right_arm/burning_stone_giant_right_arm.be67626196cbd99ea9137f3eca6553e68e608ee7.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Right_Arm_of_the_Igneous_Stone",
+          "item_rarity": "uncommon",
+          "item_type_name": "#DOTA_WearableType_Arm",
+          "used_by_heroes": "npc_dota_hero_tiny"
+        },
+        {
+          "item_id": 10068,
+          "name": "Staff of Faith",
+          "prefab": "ward",
+          "creation_date": null,
+          "image_inventory": "econ/items/wards/chen_ward/chen_ward_npc_dota_observer_wards",
+          "image_path": "icons/econ/items/wards/chen_ward/chen_ward_npc_dota_observer_wards.bfc1ff3aa74c97c6e4b6ff7b5b9e681d907d01bc.png",
+          "item_description": "#DOTA_Item_Desc_Staff_of_Faith",
+          "item_name": "#DOTA_Item_Staff_of_Faith",
+          "item_rarity": null,
+          "item_type_name": null,
+          "used_by_heroes": null
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 371,
+          "pct": 0.15550935550935552
+        },
+        "xp_per_min": {
+          "raw": 418,
+          "pct": 0.09022869022869023
+        },
+        "kills_per_min": {
+          "raw": 0.06597031335898845,
+          "pct": 0.1343035343035343
+        },
+        "last_hits_per_min": {
+          "raw": 8.543155579989005,
+          "pct": 0.8386694386694387
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.8972972972972973
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 129,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 73562326,
+      "actions": null,
+      "additional_units": null,
+      "assists": 5,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 8,
+      "denies": 6,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 299,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 53,
+      "item_0": 187,
+      "item_1": 267,
+      "item_2": 102,
+      "item_3": 46,
+      "item_4": 0,
+      "item_5": 34,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 2,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 123,
+      "leaver_status": 0,
+      "level": 12,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 6921,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 235,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 1,
+      "team_slot": 1,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "Chao P",
+      "name": null,
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": false,
+      "win": 0,
+      "lose": 1,
+      "total_gold": 9064,
+      "total_xp": 7124,
+      "kills_per_min": 0.06597031335898845,
+      "kda": 0.78,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 4104,
+          "name": "Call of the Dendrochron",
+          "prefab": "wearable",
+          "creation_date": null,
+          "image_inventory": "econ/items/furion/treant_stump_npc_dota_furion_treant",
+          "image_path": "icons/econ/items/furion/treant_stump_npc_dota_furion_treant.2c8708841709119ca736e01df5947eccbc691e1c.png",
+          "item_description": "#DOTA_Item_Desc_Call_of_the_Dendrochron",
+          "item_name": "#DOTA_Item_Call_of_the_Dendrochron",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Natures_Call_Treants",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 5417,
+          "name": "Petals of the Woodland Outcast",
+          "prefab": "wearable",
+          "creation_date": "2013-09-11T00:00:00.000Z",
+          "image_inventory": "econ/items/furion/natures_outcast_shoulder01/natures_outcast_shoulder01",
+          "image_path": "icons/econ/items/furion/natures_outcast_shoulder01/natures_outcast_shoulder01.be64fc89742c69bab268d6f98d541a7d6e90ccf2.png",
+          "item_description": "#DOTA_Item_Desc_Petals_of_the_Verdant_Outcast",
+          "item_name": "#DOTA_Item_Petals_of_the_Woodland_Outcast",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Shoulder",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 5797,
+          "name": "Cap of the Fungal Lord",
+          "prefab": "wearable",
+          "creation_date": "2013-12-04T00:00:00.000Z",
+          "image_inventory": "econ/items/furion/fungal_lord_hat/fungal_lord_hat",
+          "image_path": "icons/econ/items/furion/fungal_lord_hat/fungal_lord_hat.bbc75373fe607df16f85ac1a0007f7ee9e6bd497.png",
+          "item_description": "#DOTA_Item_Desc_Cap_of_the_Fungal_Lord",
+          "item_name": "#DOTA_Item_Cap_of_the_Fungal_Lord",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Cap",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 6245,
+          "name": "Locks of the Eternal Seasons",
+          "prefab": "wearable",
+          "creation_date": "2014-03-11T00:00:00.000Z",
+          "image_inventory": "econ/items/furion/eternalseasons_neck/eternalseasons_neck",
+          "image_path": "icons/econ/items/furion/eternalseasons_neck/eternalseasons_neck.63d84f948463bfd77996c74fc401a052289a2e8e.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Locks_of_the_Eternal_Seasons",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Locks",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 6285,
+          "name": "Arms of the Eternal Seasons",
+          "prefab": "wearable",
+          "creation_date": "2014-03-12T00:00:00.000Z",
+          "image_inventory": "econ/items/furion/eternalseasons_arms/eternalseasons_arms",
+          "image_path": "icons/econ/items/furion/eternalseasons_arms/eternalseasons_arms.877d3ef27566e416f7ce2c38712b45316aaa6fdb.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Arms_of_the_Eternal_Seasons",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Arms",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 6286,
+          "name": "Robes of the Eternal Seasons",
+          "prefab": "wearable",
+          "creation_date": "2014-03-12T00:00:00.000Z",
+          "image_inventory": "econ/items/furion/eternalseasons_back/eternalseasons_back",
+          "image_path": "icons/econ/items/furion/eternalseasons_back/eternalseasons_back.e0489f0f436e9ce7f939e0f424955f3cd474973c.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Robes_of_the_Eternal_Seasons",
+          "item_rarity": "uncommon",
+          "item_type_name": "#DOTA_WearableType_Robes",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 6749,
+          "name": "Primeval Staff",
+          "prefab": "wearable",
+          "creation_date": "2014-05-29T00:00:00.000Z",
+          "image_inventory": "econ/items/furion/primeval_weapon/primeval_weapon",
+          "image_path": "icons/econ/items/furion/primeval_weapon/primeval_weapon.5e57df1f1b0688bf676825e83fcd2a06e78d5a94.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Primeval_Staff",
+          "item_rarity": "mythical",
+          "item_type_name": "#DOTA_WearableType_Staff",
+          "used_by_heroes": "npc_dota_hero_furion"
+        },
+        {
+          "item_id": 8057,
+          "name": "Taunt: Make It Rain",
+          "prefab": "taunt",
+          "creation_date": "2015-02-25T00:00:00.000Z",
+          "image_inventory": "econ/taunts/taunt_icon_natures_prophet_make_it_rain",
+          "image_path": "icons/econ/taunts/taunt_icon_natures_prophet_make_it_rain.2757c864bf6c6b7cfffa38469d5720e2d79d310e.png",
+          "item_description": "#DOTA_Item_Desc_Taunt_Make_It_Rain",
+          "item_name": "#DOTA_Item_Taunt_Make_It_Rain",
+          "item_rarity": "immortal",
+          "item_type_name": null,
+          "used_by_heroes": "npc_dota_hero_furion"
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 299,
+          "pct": 0.021841648051625712
+        },
+        "xp_per_min": {
+          "raw": 235,
+          "pct": 0.00967982129560685
+        },
+        "kills_per_min": {
+          "raw": 0.06597031335898845,
+          "pct": 0.11094564408041697
+        },
+        "last_hits_per_min": {
+          "raw": 4.057174271577789,
+          "pct": 0.11913626209977662
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0.0004964010920824026
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.6852817076197567
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 130,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 87285329,
+      "actions": null,
+      "additional_units": null,
+      "assists": 2,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 11,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 5,
+      "denies": 7,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 424,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 12,
+      "item_0": 174,
+      "item_1": 212,
+      "item_2": 147,
+      "item_3": 63,
+      "item_4": 46,
+      "item_5": 36,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 2,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 205,
+      "leaver_status": 0,
+      "level": 17,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 11825,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 452,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 1,
+      "team_slot": 2,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "Chama",
+      "name": null,
+      "last_login": null,
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": false,
+      "win": 0,
+      "lose": 1,
+      "total_gold": 12854,
+      "total_xp": 13703,
+      "kills_per_min": 0.06597031335898845,
+      "kda": 0.67,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 4616,
+          "name": "Fishing Halberd",
+          "prefab": "wearable",
+          "creation_date": null,
+          "image_inventory": "econ/items/phantom_lancer/fishlance/fishlance",
+          "image_path": "icons/econ/items/phantom_lancer/fishlance/fishlance.d3fb8039c26233c0c553def76afeff6d1c912f2e.png",
+          "item_description": "#DOTA_Item_Desc_Fishing_Halberd",
+          "item_name": "#DOTA_Item_Fishing_Halberd",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Halberd",
+          "used_by_heroes": "npc_dota_hero_phantom_lancer"
+        },
+        {
+          "item_id": 17250,
+          "name": "The International 2018 Effects",
+          "prefab": "tool",
+          "creation_date": "2018-03-15T00:00:00.000Z",
+          "image_inventory": "econ/testitem_slot_empty",
+          "image_path": "icons/econ/testitem_slot_empty.9ae65324bc948eba453c8f17be8e74c7362c80c0.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_The_International_2018_Effects",
+          "item_rarity": "mythical",
+          "item_type_name": null,
+          "used_by_heroes": null
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 424,
+          "pct": 0.22105263157894736
+        },
+        "xp_per_min": {
+          "raw": 452,
+          "pct": 0.10813397129186603
+        },
+        "kills_per_min": {
+          "raw": 0.06597031335898845,
+          "pct": 0.14641148325358852
+        },
+        "last_hits_per_min": {
+          "raw": 6.761957119296317,
+          "pct": 0.570334928229665
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.9598086124401913
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 131,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 86698277,
+      "actions": null,
+      "additional_units": null,
+      "assists": 3,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 4,
+      "denies": 9,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 389,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 36,
+      "item_0": 108,
+      "item_1": 100,
+      "item_2": 50,
+      "item_3": 244,
+      "item_4": 36,
+      "item_5": 46,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 3,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 179,
+      "leaver_status": 0,
+      "level": 17,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 9845,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 434,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 1,
+      "team_slot": 3,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "not human (\u0436\u0438\u0432\u043e\u0442\u043d\u043e\u0435)",
+      "name": "33",
+      "last_login": "2021-05-08T09:58:21.551Z",
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": false,
+      "win": 0,
+      "lose": 1,
+      "total_gold": 11793,
+      "total_xp": 13157,
+      "kills_per_min": 0.09895547003848268,
+      "kda": 1.2,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 6053,
+          "name": "Immemorial Emperor's Mantle",
+          "prefab": "wearable",
+          "creation_date": "2014-01-24T00:00:00.000Z",
+          "image_inventory": "econ/items/necrolyte/immemorial_emperor_shoulder/immemorial_emperor_shoulder",
+          "image_path": "icons/econ/items/necrolyte/immemorial_emperor_shoulder/immemorial_emperor_shoulder.e2a6b62f021f6259f0075a41577d6836e1377b7e.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Immemorial_Emperors_Mantle",
+          "item_rarity": "rare",
+          "item_type_name": "#DOTA_WearableType_Mantle",
+          "used_by_heroes": "npc_dota_hero_necrolyte"
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 389,
+          "pct": 0.10630030530113795
+        },
+        "xp_per_min": {
+          "raw": 434,
+          "pct": 0.07549264501804052
+        },
+        "kills_per_min": {
+          "raw": 0.09895547003848269,
+          "pct": 0.08881487649181238
+        },
+        "last_hits_per_min": {
+          "raw": 5.904343045629467,
+          "pct": 0.450180405217874
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.004440743824590619
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    },
+    {
+      "match_id": 4070423361,
+      "player_slot": 132,
+      "ability_targets": null,
+      "ability_upgrades_arr": null,
+      "ability_uses": null,
+      "account_id": 86727555,
+      "actions": null,
+      "additional_units": null,
+      "assists": 3,
+      "backpack_0": 0,
+      "backpack_1": 0,
+      "backpack_2": 0,
+      "backpack_3": null,
+      "buyback_log": null,
+      "camps_stacked": null,
+      "connection_log": null,
+      "creeps_stacked": null,
+      "damage": null,
+      "damage_inflictor": null,
+      "damage_inflictor_received": null,
+      "damage_taken": null,
+      "damage_targets": null,
+      "deaths": 11,
+      "denies": 0,
+      "dn_t": null,
+      "firstblood_claimed": null,
+      "gold": null,
+      "gold_per_min": 152,
+      "gold_reasons": null,
+      "gold_spent": null,
+      "gold_t": null,
+      "hero_damage": null,
+      "hero_healing": null,
+      "hero_hits": null,
+      "hero_id": 5,
+      "item_0": 214,
+      "item_1": 42,
+      "item_2": 0,
+      "item_3": 0,
+      "item_4": 0,
+      "item_5": 34,
+      "item_neutral": 0,
+      "item_uses": null,
+      "kill_streaks": null,
+      "killed": null,
+      "killed_by": null,
+      "kills": 0,
+      "kills_log": null,
+      "lane_pos": null,
+      "last_hits": 21,
+      "leaver_status": 0,
+      "level": 12,
+      "lh_t": null,
+      "life_state": null,
+      "max_hero_hit": null,
+      "multi_kills": null,
+      "net_worth": 1474,
+      "obs": null,
+      "obs_left_log": null,
+      "obs_log": null,
+      "obs_placed": null,
+      "party_id": null,
+      "party_size": null,
+      "performance_others": null,
+      "permanent_buffs": null,
+      "pings": null,
+      "pred_vict": null,
+      "purchase": null,
+      "purchase_log": null,
+      "randomed": null,
+      "repicked": null,
+      "roshans_killed": null,
+      "rune_pickups": null,
+      "runes": null,
+      "runes_log": null,
+      "sen": null,
+      "sen_left_log": null,
+      "sen_log": null,
+      "sen_placed": null,
+      "stuns": null,
+      "teamfight_participation": null,
+      "times": null,
+      "tower_damage": null,
+      "towers_killed": null,
+      "xp_per_min": 233,
+      "xp_reasons": null,
+      "xp_t": null,
+      "team_number": 1,
+      "team_slot": 4,
+      "aghanims_scepter": 0,
+      "aghanims_shard": 0,
+      "moonshard": 0,
+      "personaname": "ppd",
+      "name": null,
+      "last_login": "2017-02-24T01:14:02.759Z",
+      "rank_tier": 80,
+      "is_subscriber": false,
+      "radiant_win": true,
+      "start_time": 1534791992,
+      "duration": 1819,
+      "cluster": 113,
+      "lobby_type": 1,
+      "game_mode": 2,
+      "is_contributor": false,
+      "patch": 38,
+      "region": 1,
+      "isRadiant": false,
+      "win": 0,
+      "lose": 1,
+      "total_gold": 4608,
+      "total_xp": 7063,
+      "kda": 0.25,
+      "abandons": 0,
+      "cosmetics": [
+        {
+          "item_id": 4041,
+          "name": "Taunt: Beautiful Snowangel",
+          "prefab": "taunt",
+          "creation_date": null,
+          "image_inventory": "econ/taunts/DOTA_Item_Taunt_Beautiful_Snowangel",
+          "image_path": "icons/econ/taunts/dota_item_taunt_beautiful_snowangel.35b40cc0e84620218a5cfd1bc652bae016bebba5.png",
+          "item_description": "#DOTA_Item_Desc_Taunt_Beautiful_Snowangel",
+          "item_name": "#DOTA_Item_Taunt_Beautiful_Snowangel",
+          "item_rarity": "rare",
+          "item_type_name": null,
+          "used_by_heroes": "npc_dota_hero_crystal_maiden"
+        },
+        {
+          "item_id": 5214,
+          "name": "Ice Capped Hood of the North",
+          "prefab": "wearable",
+          "creation_date": "2013-07-19T00:00:00.000Z",
+          "image_inventory": "econ/items/crystal_maiden/ice_capped_hood_of_the_north/ice_capped_hood_of_the_north",
+          "image_path": "icons/econ/items/crystal_maiden/ice_capped_hood_of_the_north/ice_capped_hood_of_the_north.04fef7cb8c32f043f23f76d1eb67305a55e8d23b.png",
+          "item_description": "#DOTA_Item_Desc_Ice_Capped_Hood_of_the_North",
+          "item_name": "#DOTA_Item_Ice_Capped_Hood_of_the_North",
+          "item_rarity": "uncommon",
+          "item_type_name": "#DOTA_WearableType_Hood",
+          "used_by_heroes": "npc_dota_hero_crystal_maiden"
+        },
+        {
+          "item_id": 5734,
+          "name": "Bracers of the Frozen Feather",
+          "prefab": "wearable",
+          "creation_date": "2013-11-29T00:00:00.000Z",
+          "image_inventory": "econ/items/crystal_maiden/frozen_feather_bracers/frozen_feather_bracers",
+          "image_path": "icons/econ/items/crystal_maiden/frozen_feather_bracers/frozen_feather_bracers.da39a3ee5e6b4b0d3255bfef95601890afd80709.png",
+          "item_description": "#DOTA_Item_Desc_Bracers_of_the_Frozen_Feather",
+          "item_name": "#DOTA_Item_Bracers_of_the_Frozen_Feather",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Bracers",
+          "used_by_heroes": "npc_dota_hero_crystal_maiden"
+        },
+        {
+          "item_id": 9205,
+          "name": "Yulsaria's Mantle",
+          "prefab": "wearable",
+          "creation_date": "2017-05-04T00:00:00.000Z",
+          "image_inventory": "econ/items/crystal_maiden/immortal_shoulders/cm_immortal_shoulders",
+          "image_path": "icons/econ/items/crystal_maiden/immortal_shoulders/cm_immortal_shoulders.8461252b27aab895627bfa3e4819e7a527a44fee.png",
+          "item_description": "#DOTA_Item_Desc_Yulsarias_Mantle",
+          "item_name": "#DOTA_Item_Yulsarias_Mantle",
+          "item_rarity": "immortal",
+          "item_type_name": "#DOTA_WearableType_shawl",
+          "used_by_heroes": "npc_dota_hero_crystal_maiden"
+        },
+        {
+          "item_id": 9325,
+          "name": "Tails of the Tundra Warden",
+          "prefab": "wearable",
+          "creation_date": "2015-06-22T00:00:00.000Z",
+          "image_inventory": "econ/items/crystal_maiden/warden_icewrack_back/warden_icewrack_back",
+          "image_path": "icons/econ/items/crystal_maiden/warden_icewrack_back/warden_icewrack_back.eb7e12fd2b8ab1b834a22cf2c8eaa0f27271692e.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_Tails_of_the_Tundra_Warden",
+          "item_rarity": null,
+          "item_type_name": "#DOTA_WearableType_Cape",
+          "used_by_heroes": "npc_dota_hero_crystal_maiden"
+        },
+        {
+          "item_id": 9328,
+          "name": "North Star",
+          "prefab": "wearable",
+          "creation_date": "2015-06-22T00:00:00.000Z",
+          "image_inventory": "econ/items/crystal_maiden/warden_icewrack_staff/warden_icewrack_staff",
+          "image_path": "icons/econ/items/crystal_maiden/warden_icewrack_staff/warden_icewrack_staff.ece97571d4d8ee74ca49be670556f0169e4d0c48.png",
+          "item_description": null,
+          "item_name": "#DOTA_Item_North_Star",
+          "item_rarity": "uncommon",
+          "item_type_name": "#DOTA_WearableType_Staff",
+          "used_by_heroes": "npc_dota_hero_crystal_maiden"
+        },
+        {
+          "item_id": 12190,
+          "name": "Trailgazer",
+          "prefab": "ward",
+          "creation_date": "2018-04-12T00:00:00.000Z",
+          "image_inventory": "econ/items/wards/ti8_snail_ward/ti8_snail_ward_npc_dota_observer_wards",
+          "image_path": "icons/econ/items/wards/ti8_snail_ward/ti8_snail_ward_npc_dota_observer_wards.7149462aadb5d3d9a31af289d2bc2294f3c7bafa.png",
+          "item_description": "#DOTA_Item_Desc_Trailgazer",
+          "item_name": "#DOTA_Item_Trailgazer",
+          "item_rarity": "immortal",
+          "item_type_name": null,
+          "used_by_heroes": null
+        },
+        {
+          "item_id": 12191,
+          "name": "Eimer Hillburrow",
+          "prefab": "courier",
+          "creation_date": "2018-04-19T00:00:00.000Z",
+          "image_inventory": "econ/items/courier/mole_messenger/mole_messenger",
+          "image_path": "icons/econ/items/courier/mole_messenger/mole_messenger.09d8f7f31f18d99af26d9705a79215363114c8e0.png",
+          "item_description": "#DOTA_Item_Desc_Eimer_Hillburrow",
+          "item_name": "#DOTA_Item_Eimer_Hillburrow",
+          "item_rarity": "immortal",
+          "item_type_name": null,
+          "used_by_heroes": null
+        }
+      ],
+      "benchmarks": {
+        "gold_per_min": {
+          "raw": 152,
+          "pct": 0.004357298474945534
+        },
+        "xp_per_min": {
+          "raw": 233,
+          "pct": 0.02214960058097313
+        },
+        "kills_per_min": {
+          "raw": 0,
+          "pct": 0.053013798111837325
+        },
+        "last_hits_per_min": {
+          "raw": 0.6926882902693788,
+          "pct": 0.08242556281771968
+        },
+        "hero_damage_per_min": {
+          "raw": 0,
+          "pct": 0
+        },
+        "hero_healing_per_min": {
+          "raw": 0,
+          "pct": 0.7066085693536674
+        },
+        "tower_damage": {
+          "raw": null
+        }
+      }
+    }
+  ],
+  "pre_game_duration": 90,
+  "flags": 1,
+  "radiant_name": "Team Liquid",
+  "radiant_logo": 2026094195660244500,
+  "radiant_team_complete": 1,
+  "dire_name": "",
+  "dire_logo": 904519048641815000,
+  "dire_team_complete": 1,
+  "radiant_captain": 82262664,
+  "dire_captain": 86727555,
+  "od_data": {
+    "has_api": true,
+    "has_gcdata": false,
+    "has_parsed": false,
+    "has_archive": true
+  },
+  "league": {
+    "leagueid": 9870,
+    "ticket": null,
+    "banner": null,
+    "tier": "premium",
+    "name": "The International 2018"
+  },
+  "radiant_team": {
+    "team_id": 2163,
+    "name": "Team Liquid",
+    "tag": "Liquid",
+    "logo_url": "https://steamcdn-a.akamaihd.net/apps/dota2/images/team_logos/2163.png"
+  },
+  "dire_team": {
+    "team_id": 5026801,
+    "name": "",
+    "tag": "",
+    "logo_url": "https://steamcdn-a.akamaihd.net/apps/dota2/images/team_logos/5026801.png"
+  },
+  "series_id": 235562,
+  "series_type": 1,
+  "replay_salt": 60563091,
+  "metadata": null,
+  "patch": 38,
+  "region": 1,
+  "all_word_counts": {
+    "glhf": 3,
+    "gl": 1,
+    "hf": 2,
+    "gg": 6,
+    "gege": 1,
+    "ggwp": 1
+  },
+  "my_word_counts": {},
+  "throw": 227,
+  "loss": 19750
+}
