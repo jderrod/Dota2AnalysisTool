@@ -7,9 +7,17 @@ Dota 2 match data stored in the database.
 import sys
 import os
 import logging
+import numpy as np
 from datetime import datetime, timedelta
-from sqlalchemy import create_engine, inspect
+from sqlalchemy import create_engine, inspect, func, text
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
+
+# Import visualization libraries
+import matplotlib
+matplotlib.use('Qt5Agg')  # Use Qt5 backend
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 # Add parent directory to path to import backend modules
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
@@ -33,6 +41,18 @@ logger = logging.getLogger(__name__)
 
 class DotaMatchAnalyzerApp(QMainWindow):
     """Main application window for the Dota 2 Match Analyzer"""
+    
+    def clear_layout(self, layout):
+        """Clear all widgets from a layout"""
+        if layout is None:
+            return
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+            else:
+                self.clear_layout(item.layout())
     
     def __init__(self):
         super().__init__()
@@ -568,20 +588,285 @@ class DotaMatchAnalyzerApp(QMainWindow):
     
     def open_match_details(self, item):
         """Open detailed view for a professional match"""
-        row = item.row()
-        match_id = int(self.pro_matches_table.item(row, 0).text())
+        # Get match ID from the first column
+        match_id = self.pro_matches_table.item(item.row(), 0).text()
         
-        # In a real implementation, you'd create a detailed match window
-        # For now, just show a message
-        QMessageBox.information(
-            self, 
-            "Match Details", 
-            f"Detailed view for match {match_id} would appear here.\n\n"
-            f"This would include drafts, player stats, gold/xp graphs, etc."
-        )
+        # Create a detailed match window
+        self.match_details_window = QMainWindow(self)
+        self.match_details_window.setWindowTitle(f"Match {match_id} Details")
+        self.match_details_window.setGeometry(150, 150, 1000, 800)
+        
+        # Create central widget and layout
+        central_widget = QWidget()
+        main_layout = QVBoxLayout()
+        
+        try:
+            # Fetch match data
+            from sqlalchemy import text
+            query = text("""
+                SELECT m.*, 
+                    rl.name as radiant_team_name, dl.name as dire_team_name,
+                    l.name as league_name,
+                    m.radiant_gold_adv,
+                    m.radiant_win, m.dire_score, m.radiant_score
+                FROM pro_matches m
+                LEFT JOIN pro_teams rl ON m.radiant_team_id = rl.team_id
+                LEFT JOIN pro_teams dl ON m.dire_team_id = dl.team_id
+                LEFT JOIN pro_leagues l ON m.league_id = l.league_id
+                WHERE m.match_id = :match_id
+            """)
+            result = self.session.execute(query, {"match_id": match_id})
+            match_data = result.fetchone()
+            
+            if not match_data:
+                main_layout.addWidget(QLabel(f"Match {match_id} not found in database."))
+                central_widget.setLayout(main_layout)
+                self.match_details_window.setCentralWidget(central_widget)
+                self.match_details_window.show()
+                return
+
+            # Create match header section
+            header_widget = QWidget()
+            header_layout = QHBoxLayout()
+            
+            # Format match date safely
+            if match_data.start_time is None:
+                formatted_date = "Unknown"
+            elif isinstance(match_data.start_time, str):
+                formatted_date = match_data.start_time
+            else:
+                try:
+                    # Try to format as datetime
+                    formatted_date = match_data.start_time.strftime('%Y-%m-%d %H:%M')
+                except AttributeError:
+                    # If it fails, convert to string
+                    formatted_date = str(match_data.start_time)
+            
+            # Match info
+            match_info = f"""<h2>Match {match_id}</h2>
+                <b>League:</b> {match_data.league_name or 'Unknown League'}<br>
+                <b>Date:</b> {formatted_date}<br>
+                <b>Duration:</b> {match_data.duration // 60}:{match_data.duration % 60:02d}<br>
+            """
+            
+            # Create team scores section
+            result_text = "Radiant Victory" if match_data.radiant_win else "Dire Victory"
+            score_text = f"{match_data.radiant_score} - {match_data.dire_score}"
+            
+            team_info = f"""<h3>{match_data.radiant_team_name or 'Radiant'} vs {match_data.dire_team_name or 'Dire'}</h3>
+                <div style='text-align: center;'><b>Score:</b> {score_text}<br>
+                <b>Result:</b> {result_text}</div>
+            """
+            
+            # Add match and team info to header
+            match_info_label = QLabel(match_info)
+            team_info_label = QLabel(team_info)
+            header_layout.addWidget(match_info_label)
+            header_layout.addWidget(team_info_label)
+            header_widget.setLayout(header_layout)
+            main_layout.addWidget(header_widget)
+            
+            # Create tab widget for different details
+            tab_widget = QTabWidget()
+            
+            # Overview tab
+            overview_tab = QWidget()
+            overview_layout = QVBoxLayout()
+            
+            # Add gold advantage graph
+            gold_graph_widget = QWidget()
+            gold_graph_layout = QVBoxLayout()
+            gold_graph_layout.addWidget(QLabel("<h3>Gold Advantage</h3>"))
+            
+            # Parse gold advantage data if available
+            if match_data.radiant_gold_adv:
+                try:
+                    # Gold advantage is stored as a string, parse it to get values
+                    gold_adv = None
+                    if isinstance(match_data.radiant_gold_adv, str):
+                        if match_data.radiant_gold_adv.startswith('[') and match_data.radiant_gold_adv.endswith(']'):
+                            gold_adv = eval(match_data.radiant_gold_adv)
+                        else:
+                            # Try to convert comma-separated string to list of integers
+                            try:
+                                gold_adv = [int(x.strip()) for x in match_data.radiant_gold_adv.split(',')]
+                            except ValueError:
+                                gold_adv = None
+                    elif isinstance(match_data.radiant_gold_adv, (list, tuple)):
+                        gold_adv = match_data.radiant_gold_adv
+                    
+                    if gold_adv and len(gold_adv) > 0:
+                        fig = Figure(figsize=(8, 4))
+                        ax = fig.add_subplot(111)
+                        
+                        # Plot gold advantage
+                        ax.plot(gold_adv, linewidth=2)
+                        ax.axhline(y=0, color='k', linestyle='-', alpha=0.3)
+                        
+                        # Fill area based on advantage
+                        x = range(len(gold_adv))
+                        ax.fill_between(x, gold_adv, 0, where=[y > 0 for y in gold_adv], color='green', alpha=0.3)
+                        ax.fill_between(x, gold_adv, 0, where=[y < 0 for y in gold_adv], color='red', alpha=0.3)
+                        
+                        # Set labels
+                        ax.set_xlabel('Game Time (minutes)')
+                        ax.set_ylabel('Gold Advantage')
+                        ax.set_title('Radiant Gold Advantage')
+                        
+                        # Set x-axis to show time in minutes
+                        max_minutes = len(gold_adv) // 60 + 1
+                        ax.set_xticks(range(0, len(gold_adv), 60))
+                        ax.set_xticklabels(range(0, max_minutes))
+                        
+                        # Add a grid
+                        ax.grid(True, linestyle='--', alpha=0.7)
+                        
+                        # Adjust layout
+                        fig.tight_layout()
+                        
+                        # Create canvas
+                        canvas = FigureCanvas(fig)
+                        canvas.setMinimumHeight(300)
+                        gold_graph_layout.addWidget(canvas)
+                    else:
+                        gold_graph_layout.addWidget(QLabel("Gold advantage data could not be parsed"))
+                except Exception as e:
+                    logger.error(f"Error parsing gold advantage data: {e}")
+                    import traceback
+                    logger.error(traceback.format_exc())
+                    gold_graph_layout.addWidget(QLabel(f"Error parsing gold advantage data: {str(e)}"))
+            else:
+                gold_graph_layout.addWidget(QLabel("Gold advantage data not available"))
+            
+            gold_graph_widget.setLayout(gold_graph_layout)
+            overview_layout.addWidget(gold_graph_widget)
+            
+            # Try to fetch player data
+            try:
+                # Fetch player data - use pro_match_player_metrics table
+                player_query = text("""
+                    SELECT mp.*, p.name as player_name, h.name as hero_name, h.localized_name as hero_localized_name
+                    FROM pro_match_player_metrics mp
+                    JOIN pro_players p ON mp.account_id = p.account_id
+                    JOIN pro_heroes h ON mp.hero_id = h.hero_id
+                    WHERE mp.match_id = :match_id
+                    ORDER BY mp.player_slot ASC
+                """)
+                player_result = self.session.execute(player_query, {"match_id": match_id})
+                player_data = player_result.fetchall()
+                
+                # Create the draft visualization
+                draft_widget = QWidget()
+                draft_layout = QHBoxLayout()
+                
+                # Radiant draft
+                radiant_draft = QWidget()
+                radiant_layout = QVBoxLayout()
+                radiant_layout.addWidget(QLabel(f"<h4>{match_data.radiant_team_name or 'Radiant'} Draft</h4>"))
+                
+                # Dire draft
+                dire_draft = QWidget()
+                dire_layout = QVBoxLayout()
+                dire_layout.addWidget(QLabel(f"<h4>{match_data.dire_team_name or 'Dire'} Draft</h4>"))
+                
+                # Sort players by team and position
+                radiant_players = []
+                dire_players = []
+                
+                for player in player_data:
+                    if hasattr(player, 'player_slot') and player.player_slot < 128:  # Radiant players
+                        radiant_players.append(player)
+                    else:  # Dire players
+                        dire_players.append(player)
+                
+                # Add hero icons and player names for Radiant
+                for player in radiant_players:
+                    player_name = getattr(player, 'player_name', 'Unknown Player')
+                    hero_name = getattr(player, 'hero_name', 'Unknown Hero')
+                    player_hero = QLabel(f"{hero_name} - {player_name}")
+                    radiant_layout.addWidget(player_hero)
+                
+                # Add hero icons and player names for Dire
+                for player in dire_players:
+                    player_name = getattr(player, 'player_name', 'Unknown Player')
+                    hero_name = getattr(player, 'hero_name', 'Unknown Hero')
+                    player_hero = QLabel(f"{hero_name} - {player_name}")
+                    dire_layout.addWidget(player_hero)
+                
+                radiant_draft.setLayout(radiant_layout)
+                dire_draft.setLayout(dire_layout)
+                
+                draft_layout.addWidget(radiant_draft)
+                draft_layout.addWidget(dire_draft)
+                draft_widget.setLayout(draft_layout)
+                
+                overview_layout.addWidget(draft_widget)
+                
+                # Players tab with detailed statistics
+                players_tab = QWidget()
+                players_layout = QVBoxLayout()
+                
+                # Create player stats table
+                player_table = QTableWidget()
+                player_table.setColumnCount(10)
+                player_table.setHorizontalHeaderLabels([
+                    "Player", "Hero", "K", "D", "A", "GPM", "XPM", "LH/DN", "HD", "HH"
+                ])
+                player_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+                
+                # Add player data to table
+                player_table.setRowCount(len(player_data))
+                for i, player in enumerate(player_data):
+                    # Player name
+                    player_table.setItem(i, 0, QTableWidgetItem(getattr(player, 'player_name', 'Unknown')))
+                    # Hero name
+                    player_table.setItem(i, 1, QTableWidgetItem(getattr(player, 'hero_name', 'Unknown')))
+                    # KDA
+                    player_table.setItem(i, 2, QTableWidgetItem(str(getattr(player, 'kills', '?'))))
+                    player_table.setItem(i, 3, QTableWidgetItem(str(getattr(player, 'deaths', '?'))))
+                    player_table.setItem(i, 4, QTableWidgetItem(str(getattr(player, 'assists', '?'))))
+                    # GPM/XPM
+                    player_table.setItem(i, 5, QTableWidgetItem(str(getattr(player, 'gold_per_min', '?'))))
+                    player_table.setItem(i, 6, QTableWidgetItem(str(getattr(player, 'xp_per_min', '?'))))
+                    # LH/DN
+                    lh_dn = f"{getattr(player, 'last_hits', '?')}/{getattr(player, 'denies', '?')}"
+                    player_table.setItem(i, 7, QTableWidgetItem(lh_dn))
+                    # Damage
+                    player_table.setItem(i, 8, QTableWidgetItem(str(getattr(player, 'hero_damage', '?'))))
+                    player_table.setItem(i, 9, QTableWidgetItem(str(getattr(player, 'hero_healing', '?'))))
+                
+                players_layout.addWidget(player_table)
+                players_tab.setLayout(players_layout)
+                
+                # Add the players tab to the tab widget
+                tab_widget.addTab(players_tab, "Player Stats")
+            except Exception as e:
+                logger.error(f"Error loading player data: {e}")
+                import traceback
+                logger.error(traceback.format_exc())
+                overview_layout.addWidget(QLabel(f"Error loading player data: {str(e)}"))
+            
+            # Finalize the overview tab
+            overview_tab.setLayout(overview_layout)
+            tab_widget.addTab(overview_tab, "Overview")
+            
+            # Add tab widget to main layout
+            main_layout.addWidget(tab_widget)
+            
+        except Exception as e:
+            logger.error(f"Error loading match details: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            main_layout.addWidget(QLabel(f"Error loading match details: {str(e)}"))
+        
+        # Set layout and show window
+        central_widget.setLayout(main_layout)
+        self.match_details_window.setCentralWidget(central_widget)
+        self.match_details_window.show()
     
     def open_user_match_details(self, item):
         """Open detailed view for a user match"""
+        # Get match ID from the first column
         row = item.row()
         match_id = int(self.user_matches_table.item(row, 0).text())
         
@@ -593,33 +878,563 @@ class DotaMatchAnalyzerApp(QMainWindow):
             f"Detailed view for match {match_id} would appear here.\n\n"
             f"This would include your performance, items, skill builds, etc."
         )
-    
     def change_statistic(self, row):
         """Change the displayed statistic based on list selection"""
-        statistic = self.stats_list.item(row).text()
-        
-        # Clear the current content
-        for i in reversed(range(self.stats_content_layout.count())): 
-            widget = self.stats_content_layout.itemAt(i).widget()
-            if widget:
-                widget.deleteLater()
-        
-        # Add a label with the selected statistic
-        title_label = QLabel(f"<h2>{statistic}</h2>")
-        title_label.setAlignment(Qt.AlignCenter)
-        self.stats_content_layout.addWidget(title_label)
+        # Clear the content layout
+        self.clear_layout(self.stats_content_layout)
         
         # Based on the selected statistic, display different content
-        if statistic == "Heroes Win Rates":
+        selected_stat = self.stats_list.item(row).text()
+        if selected_stat == "Heroes Win Rates":
             self.display_hero_win_rates()
-        elif statistic == "Team Performance":
+        elif selected_stat == "Team Performance":
             self.display_team_performance()
-        elif statistic == "Player Statistics":
+        elif selected_stat == "Player Statistics":
             self.display_player_statistics()
-        elif statistic == "Meta Trends":
+        elif selected_stat == "Meta Trends":
             self.display_meta_trends()
-        elif statistic == "Draft Analysis":
+        elif selected_stat == "Draft Analysis":
             self.display_draft_analysis()
+            
+        # Update layout
+        self.stats_content.setLayout(self.stats_content_layout)
+        
+    def display_meta_trends(self):
+        """Display meta trend statistics from the database"""
+        # Create a scrollable container for meta trend analysis
+        meta_trends_widget = QWidget()
+        meta_trends_layout = QVBoxLayout()
+        
+        # Add title
+        title = QLabel("<h2>Meta Trends Analysis</h2>")
+        title.setAlignment(Qt.AlignCenter)
+        meta_trends_layout.addWidget(title)
+        
+        # Add description
+        description = QLabel("Analyze how the game has evolved over time, including game duration, pick rates, and item usage.")
+        description.setWordWrap(True)
+        meta_trends_layout.addWidget(description)
+        
+        # Filters section
+        filters_group = QGroupBox("Analysis Filters")
+        filters_layout = QGridLayout()
+        
+        # Date range filter
+        filters_layout.addWidget(QLabel("Time Period:"), 0, 0)
+        self.meta_time_combo = QComboBox()
+        self.meta_time_combo.addItems(["Last Month", "Last 3 Months", "Last 6 Months", "Last Year", "All Time"])
+        filters_layout.addWidget(self.meta_time_combo, 0, 1)
+        
+        # League filter
+        filters_layout.addWidget(QLabel("League:"), 1, 0)
+        self.meta_league_combo = QComboBox()
+        self.meta_league_combo.addItem("All Leagues", None)
+        # Add leagues from database
+        try:
+            result = self.session.execute(text("SELECT league_id, name FROM pro_leagues ORDER BY name"))
+            leagues = result.fetchall()
+            for league in leagues:
+                league_id, league_name = league
+                self.meta_league_combo.addItem(league_name or "Unknown League", league_id)
+        except Exception as e:
+            logger.error(f"Error loading leagues for meta trends: {e}")
+        filters_layout.addWidget(self.meta_league_combo, 1, 1)
+        
+        # Analysis type filter
+        filters_layout.addWidget(QLabel("Analysis Type:"), 2, 0)
+        self.meta_analysis_combo = QComboBox()
+        self.meta_analysis_combo.addItems(["Game Duration", "Hero Pick Rates", "Role Distribution", "Item Usage"])
+        filters_layout.addWidget(self.meta_analysis_combo, 2, 1)
+        
+        # Add analysis parameters
+        filters_layout.addWidget(QLabel("Top Results:"), 3, 0)
+        self.meta_top_results = QComboBox()
+        self.meta_top_results.addItems(["5", "10", "15", "20"])
+        filters_layout.addWidget(self.meta_top_results, 3, 1)
+        
+        # Add Apply button
+        self.meta_analysis_button = QPushButton("Generate Analysis")
+        self.meta_analysis_button.clicked.connect(self.generate_meta_analysis)
+        filters_layout.addWidget(self.meta_analysis_button, 4, 1)
+        
+        filters_group.setLayout(filters_layout)
+        meta_trends_layout.addWidget(filters_group)
+        
+        # Create a widget for displaying charts and results
+        self.meta_results_widget = QWidget()
+        self.meta_results_layout = QVBoxLayout()
+        self.meta_results_layout.addWidget(QLabel("Select analysis options and click Generate Analysis"))
+        self.meta_results_widget.setLayout(self.meta_results_layout)
+        meta_trends_layout.addWidget(self.meta_results_widget)
+        
+        # Set layout
+        meta_trends_widget.setLayout(meta_trends_layout)
+        self.stats_content_layout.addWidget(meta_trends_widget)
+        
+    def generate_meta_analysis(self):
+        """Generate meta trend analysis based on selected filters"""
+        # Clear previous results
+        self.clear_layout(self.meta_results_layout)
+        
+        # Get filter values
+        analysis_type = self.meta_analysis_combo.currentText()
+        time_period = self.meta_time_combo.currentText()
+        league_id = self.meta_league_combo.currentData()
+        top_results = int(self.meta_top_results.currentText())
+        
+        # Create date filter based on time period
+        end_date = datetime.now()
+        if time_period == "Last Month":
+            start_date = end_date - timedelta(days=30)
+        elif time_period == "Last 3 Months":
+            start_date = end_date - timedelta(days=90)
+        elif time_period == "Last 6 Months":
+            start_date = end_date - timedelta(days=180)
+        elif time_period == "Last Year":
+            start_date = end_date - timedelta(days=365)
+        else:  # All Time
+            start_date = datetime(2000, 1, 1)  # Very old date to include all matches
+            
+        # Create parameters dict
+        params = {
+            'top_n': top_results
+        }
+        
+        # Call appropriate analysis function based on type
+        if analysis_type == "Game Duration":
+            self.analyze_game_duration(start_date, league_id, params)
+        elif analysis_type == "Hero Pick Rates":
+            self.analyze_hero_pick_rates(start_date, league_id, params)
+        elif analysis_type == "Role Distribution":
+            self.analyze_role_distribution(start_date, league_id, params)
+        elif analysis_type == "Item Usage":
+            self.analyze_item_usage(start_date, league_id, params)
+        
+    def analyze_game_duration(self, date_filter, league_filter, params):
+        """Analyze game duration trends over time"""
+        # Add title
+        title = QLabel("<h3>Game Duration Trends</h3>")
+        title.setAlignment(Qt.AlignCenter)
+        self.meta_results_layout.addWidget(title)
+        
+        try:
+            # Build SQL query
+            sql_query = """
+            SELECT 
+                strftime('%Y-%m', start_time) as month,
+                AVG(duration) / 60.0 as avg_duration_minutes,
+                COUNT(*) as match_count
+            FROM pro_matches
+            WHERE start_time >= :start_date
+            """
+            
+            params_dict = {"start_date": date_filter}
+            
+            if league_filter:
+                sql_query += " AND league_id = :league_id"
+                params_dict["league_id"] = league_filter
+                
+            sql_query += """
+            GROUP BY month
+            ORDER BY month ASC
+            """
+            
+            # Execute query
+            result = self.session.execute(text(sql_query), params_dict)
+            data = result.fetchall()
+            
+            if not data:
+                self.meta_results_layout.addWidget(QLabel("No data available for the selected filters."))
+                return
+                
+            # Extract data for plotting
+            months = [row[0] for row in data]
+            durations = [row[1] for row in data]
+            match_counts = [row[2] for row in data]
+            
+            # Create matplotlib figure
+            fig = Figure(figsize=(10, 6))
+            ax = fig.add_subplot(111)
+            
+            # Plot average duration
+            ax.plot(range(len(months)), durations, 'ro-', linewidth=2, markersize=8)
+            
+            # Set labels and title
+            ax.set_xlabel('Month')
+            ax.set_ylabel('Average Duration (minutes)')
+            ax.set_title('Average Game Duration Over Time')
+            
+            # Set x-axis tick labels
+            ax.set_xticks(range(len(months)))
+            ax.set_xticklabels(months, rotation=45)
+            
+            # Add match count as a second line on a secondary y-axis
+            ax2 = ax.twinx()
+            ax2.plot(range(len(months)), match_counts, 'bo--', linewidth=1, markersize=5)
+            ax2.set_ylabel('Number of Matches', color='b')
+            ax2.tick_params(axis='y', labelcolor='b')
+            
+            # Add a grid
+            ax.grid(True, linestyle='--', alpha=0.7)
+            
+            # Adjust layout
+            fig.tight_layout()
+            
+            # Create canvas
+            canvas = FigureCanvas(fig)
+            canvas.setMinimumHeight(400)
+            
+            # Add to layout
+            self.meta_results_layout.addWidget(canvas)
+            
+            # Add summary text
+            if durations:
+                avg_duration = sum(durations) / len(durations)
+                min_duration = min(durations)
+                max_duration = max(durations)
+                
+                summary = QLabel(f"<b>Summary:</b><br>"
+                                f"Average game duration: {avg_duration:.2f} minutes<br>"
+                                f"Shortest average duration: {min_duration:.2f} minutes<br>"
+                                f"Longest average duration: {max_duration:.2f} minutes<br>"
+                                f"Total matches analyzed: {sum(match_counts)}<br>")
+                summary.setWordWrap(True)
+                self.meta_results_layout.addWidget(summary)
+                
+                # Analysis insights
+                if len(durations) > 1:
+                    trend = "increasing" if durations[-1] > durations[0] else "decreasing"
+                    insight = QLabel(f"<b>Insight:</b> Game duration is {trend} over the analyzed period, "
+                                    f"which may indicate meta shifts toward {'late' if trend == 'increasing' else 'early'} game strategies.")
+                    insight.setWordWrap(True)
+                    self.meta_results_layout.addWidget(insight)
+            
+        except Exception as e:
+            logger.error(f"Error analyzing game duration: {e}")
+            self.meta_results_layout.addWidget(QLabel(f"Error analyzing game duration: {str(e)}"))
+            
+    def analyze_hero_pick_rates(self, date_filter, league_filter, params):
+        """Analyze hero pick rate trends over time"""
+        # Add title
+        title = QLabel("<h3>Hero Pick Rate Trends</h3>")
+        title.setAlignment(Qt.AlignCenter)
+        self.meta_results_layout.addWidget(title)
+        
+        try:
+            # Get top N parameter
+            top_n = params.get('top_n', 10)
+            
+            # Build SQL query to get top heroes by pick rate
+            sql_query = """
+            SELECT 
+                h.name as hero_name,
+                COUNT(*) as pick_count,
+                (COUNT(*) * 100.0 / (SELECT COUNT(*) FROM pro_match_players mp 
+                                    JOIN pro_matches m ON mp.match_id = m.match_id 
+                                    WHERE m.start_time >= :start_date
+            """
+            
+            params_dict = {"start_date": date_filter}
+            
+            if league_filter:
+                sql_query += " AND m.league_id = :league_id"
+                params_dict["league_id"] = league_filter
+                
+            sql_query += """
+            )) as pick_rate
+            FROM pro_match_players mp
+            JOIN pro_heroes h ON mp.hero_id = h.hero_id
+            JOIN pro_matches m ON mp.match_id = m.match_id
+            WHERE m.start_time >= :start_date
+            """
+            
+            if league_filter:
+                sql_query += " AND m.league_id = :league_id"
+                
+            sql_query += """
+            GROUP BY h.hero_id
+            ORDER BY pick_count DESC
+            LIMIT :top_n
+            """
+            
+            params_dict["top_n"] = top_n
+            
+            # Execute query
+            result = self.session.execute(text(sql_query), params_dict)
+            data = result.fetchall()
+            
+            if not data:
+                self.meta_results_layout.addWidget(QLabel("No data available for the selected filters."))
+                return
+                
+            # Extract data for plotting
+            heroes = [row[0] for row in data]
+            pick_rates = [row[2] for row in data]
+            
+            # Create matplotlib figure
+            fig = Figure(figsize=(10, 6))
+            ax = fig.add_subplot(111)
+            
+            # Create horizontal bar chart
+            bars = ax.barh(range(len(heroes)), pick_rates, color='skyblue')
+            
+            # Set labels and title
+            ax.set_xlabel('Pick Rate (%)')
+            ax.set_title('Top Heroes by Pick Rate')
+            
+            # Set y-axis tick labels
+            ax.set_yticks(range(len(heroes)))
+            ax.set_yticklabels(heroes)
+            
+            # Add pick rate values at the end of each bar
+            for i, bar in enumerate(bars):
+                ax.text(bar.get_width() + 0.2, bar.get_y() + bar.get_height()/2, 
+                        f'{pick_rates[i]:.1f}%', va='center')
+            
+            # Add a grid
+            ax.grid(True, axis='x', linestyle='--', alpha=0.7)
+            
+            # Adjust layout
+            fig.tight_layout()
+            
+            # Create canvas
+            canvas = FigureCanvas(fig)
+            canvas.setMinimumHeight(400)
+            
+            # Add to layout
+            self.meta_results_layout.addWidget(canvas)
+            
+            # Add summary text
+            summary = QLabel(f"<b>Summary:</b><br>"
+                            f"{heroes[0]} is the most picked hero with a {pick_rates[0]:.1f}% pick rate.<br>"
+                            f"The top 3 most picked heroes are {', '.join(heroes[:3])}.")
+            summary.setWordWrap(True)
+            self.meta_results_layout.addWidget(summary)
+            
+        except Exception as e:
+            logger.error(f"Error analyzing hero pick rates: {e}")
+            self.meta_results_layout.addWidget(QLabel(f"Error analyzing hero pick rates: {str(e)}"))
+
+    def analyze_role_distribution(self, date_filter, league_filter, params):
+        """Analyze role distribution trends over time"""
+        # Add title
+        title = QLabel("<h3>Role Distribution Analysis</h3>")
+        title.setAlignment(Qt.AlignCenter)
+        self.meta_results_layout.addWidget(title)
+        
+        # For role distribution, we'll use a simplified approach since actual lane data
+        # might not be available. We'll simulate with random data for visualization purposes.
+        
+        # Create roles and sample data
+        roles = ['Carry', 'Mid', 'Offlane', 'Support', 'Hard Support']
+        
+        # Generate random distribution data for different time periods
+        np.random.seed(42)  # For reproducibility
+        time_periods = ['Patch 7.30', 'Patch 7.31', 'Patch 7.32', 'Current']
+        
+        # Create base distribution that evolves over time
+        base_distribution = [30, 25, 20, 15, 10]  # Initial distribution
+        all_distributions = []
+        
+        for i in range(len(time_periods)):
+            # Add some random variation while maintaining sum of 100
+            variation = np.random.randint(-3, 4, 5)
+            # Ensure sum is still 100
+            distribution = [max(5, base_distribution[j] + variation[j]) for j in range(5)]
+            total = sum(distribution)
+            distribution = [int(100 * d / total) for d in distribution]
+            
+            # Fix any rounding errors
+            while sum(distribution) < 100:
+                distribution[np.random.randint(0, 5)] += 1
+            while sum(distribution) > 100:
+                idx = np.argmax(distribution)
+                distribution[idx] -= 1
+                
+            all_distributions.append(distribution)
+            
+            # Update base for next iteration
+            base_distribution = distribution
+        
+        # Create matplotlib figure for stacked bar chart
+        fig = Figure(figsize=(10, 6))
+        ax = fig.add_subplot(111)
+        
+        # Create x-axis positions
+        x = np.arange(len(time_periods))
+        width = 0.6
+        
+        # Create bottom position for stacking
+        bottom = np.zeros(len(time_periods))
+        
+        # Colors for each role
+        colors = ['#FF7043', '#42A5F5', '#66BB6A', '#AB47BC', '#FFA726']
+        
+        # Plot each role as a segment of the stacked bar
+        bars = []
+        for i, role in enumerate(roles):
+            values = [dist[i] for dist in all_distributions]
+            bar = ax.bar(x, values, width, bottom=bottom, label=role, color=colors[i])
+            bars.append(bar)
+            bottom += values
+        
+        # Set labels and title
+        ax.set_xlabel('Patch')
+        ax.set_ylabel('Percentage (%)')
+        ax.set_title('Role Distribution Across Patches')
+        
+        # Set x-axis tick labels
+        ax.set_xticks(x)
+        ax.set_xticklabels(time_periods)
+        
+        # Add value labels to each segment
+        for i, role_bars in enumerate(bars):
+            for j, bar in enumerate(role_bars):
+                height = bar.get_height()
+                if height > 5:  # Only label segments that are large enough
+                    ax.text(bar.get_x() + bar.get_width()/2, 
+                           bar.get_y() + height/2, 
+                           str(int(height)), 
+                           ha='center', va='center', 
+                           color='white', fontweight='bold')
+        
+        # Add legend
+        ax.legend(title="Roles", bbox_to_anchor=(1.05, 1), loc='upper left')
+        
+        # Adjust layout
+        fig.tight_layout()
+        
+        # Create canvas
+        canvas = FigureCanvas(fig)
+        canvas.setMinimumHeight(400)
+        
+        # Add to layout
+        self.meta_results_layout.addWidget(canvas)
+        
+        # Add explanatory text
+        explanation = QLabel("<b>Note:</b> This visualization shows simulated role distribution data across patches. "
+                           "In a production environment, this would use actual player position data from matches.")
+        explanation.setWordWrap(True)
+        self.meta_results_layout.addWidget(explanation)
+        
+        # Add insights
+        latest_dist = all_distributions[-1]
+        max_role_idx = np.argmax(latest_dist)
+        min_role_idx = np.argmin(latest_dist)
+        
+        insight = QLabel(f"<b>Insight:</b> {roles[max_role_idx]} appears to be the most resource-intensive role "
+                         f"in the current meta ({latest_dist[max_role_idx]}%), while {roles[min_role_idx]} "
+                         f"receives the least farm priority ({latest_dist[min_role_idx]}%).")
+        insight.setWordWrap(True)
+        self.meta_results_layout.addWidget(insight)
+        
+    def analyze_item_usage(self, date_filter, league_filter, params):
+        """Analyze item usage trends over time"""
+        # Add title
+        title = QLabel("<h3>Item Usage Trends</h3>")
+        title.setAlignment(Qt.AlignCenter)
+        self.meta_results_layout.addWidget(title)
+        
+        # For this demo, we'll use simulated data for popular items
+        items = [
+            "Black King Bar", "Blink Dagger", "Power Treads", "Aghanim's Scepter",
+            "Desolator", "Satanic", "Butterfly", "Manta Style",
+            "Battle Fury", "Eye of Skadi"
+        ]
+        
+        # Generate usage data (increasing or decreasing trend for each item)
+        np.random.seed(42)  # For reproducibility
+        time_periods = ['2023 Q1', '2023 Q2', '2023 Q3', '2023 Q4', '2024 Q1']
+        
+        # Create trends data
+        usage_data = {}
+        trends = {}  # Store trend direction for each item
+        
+        for item in items:
+            # Randomly decide if item usage is increasing or decreasing
+            trend_direction = np.random.choice([-1, 1])
+            trends[item] = trend_direction
+            
+            # Base usage percentage (between 10% and 70%)
+            base = np.random.uniform(10, 70)
+            
+            # Create trend with some random noise
+            trend = []
+            for i in range(len(time_periods)):
+                # Add trend effect and some noise
+                value = base + (trend_direction * i * 5) + np.random.uniform(-3, 3)
+                # Ensure values are in range [5, 95]
+                value = max(5, min(95, value))
+                trend.append(value)
+                
+            usage_data[item] = trend
+        
+        # Sort items by their current (last) usage rate
+        sorted_items = sorted(items, key=lambda x: usage_data[x][-1], reverse=True)
+        
+        # Select top N items for visualization
+        top_n = params.get('top_n', 5)
+        top_items = sorted_items[:top_n]
+        
+        # Create matplotlib figure
+        fig = Figure(figsize=(10, 6))
+        ax = fig.add_subplot(111)
+        
+        # Plot each item's usage trend
+        for item in top_items:
+            ax.plot(range(len(time_periods)), usage_data[item], 'o-', linewidth=2, markersize=8, label=item)
+        
+        # Set labels and title
+        ax.set_xlabel('Time Period')
+        ax.set_ylabel('Usage Rate (%)')
+        ax.set_title('Item Usage Trends Over Time')
+        
+        # Set x-axis tick labels
+        ax.set_xticks(range(len(time_periods)))
+        ax.set_xticklabels(time_periods, rotation=45)
+        
+        # Add a grid
+        ax.grid(True, linestyle='--', alpha=0.7)
+        
+        # Add legend
+        ax.legend(title="Items", loc='best')
+        
+        # Adjust layout
+        fig.tight_layout()
+        
+        # Create canvas
+        canvas = FigureCanvas(fig)
+        canvas.setMinimumHeight(400)
+        
+        # Add to layout
+        self.meta_results_layout.addWidget(canvas)
+        
+        # Add insights
+        rising_items = [item for item in top_items if trends[item] > 0]
+        falling_items = [item for item in top_items if trends[item] < 0]
+        
+        insights = QLabel("<b>Item Trend Insights:</b><br>")
+        insights.setWordWrap(True)
+        
+        if rising_items:
+            insights_text = f"<span style='color:green'>Gaining popularity:</span> {', '.join(rising_items)}<br>"
+            insights.setText(insights.text() + insights_text)
+            
+        if falling_items:
+            insights_text = f"<span style='color:red'>Declining usage:</span> {', '.join(falling_items)}<br>"
+            insights.setText(insights.text() + insights_text)
+            
+        most_popular = top_items[0]
+        insights_text = f"<br>Currently, <b>{most_popular}</b> is the most commonly purchased item among the top cores."
+        insights.setText(insights.text() + insights_text)
+        
+        self.meta_results_layout.addWidget(insights)
+        
+        # Add explanatory note
+        note = QLabel("<b>Note:</b> This visualization shows simulated item usage data. "
+                      "In a production environment, this would use actual item purchase data from matches.")
+        note.setWordWrap(True)
+        self.meta_results_layout.addWidget(note)
     
     def display_hero_win_rates(self):
         """Display hero win rate statistics from the database"""
@@ -3049,8 +3864,10 @@ class DotaMatchAnalyzerApp(QMainWindow):
             # Check if database sessions are initialized
             if hasattr(self.pro_db, 'session'):
                 try:
-                    # Get match count
-                    pro_match_count = self.session.query(Match).count()
+                    # Get match count using direct SQL
+                    from sqlalchemy import text
+                    result = self.session.execute(text("SELECT COUNT(*) FROM pro_matches"))
+                    pro_match_count = result.scalar()
                     message += f"{pro_match_count} pro matches"
                 except Exception as e:
                     logger.error(f"Error counting pro matches: {e}")
@@ -3062,8 +3879,10 @@ class DotaMatchAnalyzerApp(QMainWindow):
                 
             if hasattr(self.user_db, 'session'):
                 try:
-                    # Get user match count
-                    user_match_count = self.session.query(UserMatch).count()
+                    # Get user match count using direct SQL
+                    from sqlalchemy import text
+                    result = self.session.execute(text("SELECT COUNT(*) FROM user_matches"))
+                    user_match_count = result.scalar()
                     message += f"{user_match_count} user matches"
                 except Exception as e:
                     logger.error(f"Error counting user matches: {e}")
