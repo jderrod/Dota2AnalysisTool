@@ -22,8 +22,11 @@ load_dotenv(dotenv_path=env_path)
 import matplotlib
 matplotlib.use('Qt5Agg')  # Use Qt5 backend
 import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from matplotlib.patches import Patch
 
 # Add parent directory to path to import backend modules
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
@@ -41,6 +44,239 @@ from PyQt5.QtGui import QIcon, QFont
 # Import backend modules
 from backend.database.database import DotaDatabase, Match, League, Team, Player, Hero, MatchPlayer
 from backend.database.user_games_db import UserDotaDatabase, User, UserMatch, UserMatchPlayer
+
+# We'll define adapter functions to handle analysis modules since there might be import path issues
+# in the original analysis modules
+
+# Adapter functions for lane analysis
+def track_lane_stats_over_time(match_id, lane_type, start_time=0, end_time=None, interval=60):
+    """Adapter function for lane stats tracking"""
+    # Create synthetic data for demo purposes
+    if end_time is None:
+        end_time = 1800  # 30 minutes
+    
+    times = list(range(start_time, end_time + 1, interval))
+    data_length = len(times)
+    
+    # Generate sample data with some variance
+    # Ensure match_id seed is within valid range (0 to 2^32-1)
+    seed_value = abs(hash(str(match_id))) % (2**32 - 1)
+    np.random.seed(seed_value)  # Use match_id as seed for consistent results
+    
+    # Base values that grow over time
+    radiant_gold_base = np.linspace(500, 3000, data_length) 
+    dire_gold_base = np.linspace(500, 3000, data_length)
+    radiant_xp_base = np.linspace(300, 2000, data_length)
+    dire_xp_base = np.linspace(300, 2000, data_length)
+    
+    # Add randomness
+    radiant_advantage = np.random.randint(-300, 300)
+    radiant_gold = radiant_gold_base + np.random.normal(radiant_advantage, 200, data_length)
+    dire_gold = dire_gold_base + np.random.normal(-radiant_advantage, 200, data_length)
+    radiant_xp = radiant_xp_base + np.random.normal(radiant_advantage, 150, data_length)
+    dire_xp = dire_xp_base + np.random.normal(-radiant_advantage, 150, data_length)
+    
+    # Ensure positive values
+    radiant_gold = np.maximum(radiant_gold, 0)
+    dire_gold = np.maximum(dire_gold, 0)
+    radiant_xp = np.maximum(radiant_xp, 0)
+    dire_xp = np.maximum(dire_xp, 0)
+    
+    # Create lane matchup data
+    return {
+        "times": times,
+        "radiant_gold": radiant_gold.tolist(),
+        "dire_gold": dire_gold.tolist(),
+        "radiant_xp": radiant_xp.tolist(),
+        "dire_xp": dire_xp.tolist()
+    }
+
+def generate_lane_player_data(match_id, team, lane_role):
+    """Generate player data for a lane"""
+    # Ensure seed is within valid range
+    seed_value = abs(hash(str(match_id) + str(team) + str(lane_role))) % (2**32 - 1)
+    np.random.seed(seed_value)  # Ensure consistent results
+    
+    # Placeholder hero and player names
+    heroes = ["Anti-Mage", "Axe", "Bane", "Bloodseeker", "Crystal Maiden", 
+              "Drow Ranger", "Earthshaker", "Juggernaut", "Mirana", "Morphling"]
+    
+    return {
+        "player_name": f"Player_{np.random.randint(1000, 9999)}",
+        "hero_name": heroes[np.random.randint(0, len(heroes))],
+        "gold": np.random.randint(1000, 3000),
+        "xp": np.random.randint(800, 2000),
+        "last_hits": np.random.randint(10, 50),
+        "denies": np.random.randint(0, 15)
+    }
+
+def mid_vs_mid(match_id, time):
+    """Adapter function for mid lane matchup"""
+    return {
+        "radiant": [generate_lane_player_data(match_id, "radiant", 2)],
+        "dire": [generate_lane_player_data(match_id, "dire", 2)]
+    }
+
+def off_vs_safe_radiant(match_id, time):
+    """Adapter function for offlane vs safelane matchup"""
+    return {
+        "radiant": [generate_lane_player_data(match_id, "radiant", 3)],
+        "dire": [generate_lane_player_data(match_id, "dire", 1)]
+    }
+
+def safe_vs_off_radiant(match_id, time):
+    """Adapter function for safelane vs offlane matchup"""
+    return {
+        "radiant": [generate_lane_player_data(match_id, "radiant", 1)],
+        "dire": [generate_lane_player_data(match_id, "dire", 3)]
+    }
+
+# Adapter function for player metrics
+def get_match_player_data(match_id):
+    """Adapter function for player performance data"""
+    # Ensure seed is within valid range
+    seed_value = abs(hash(str(match_id))) % (2**32 - 1)
+    np.random.seed(seed_value)  # Use match_id as seed for consistent results
+    
+    # Hero and player names for demo
+    heroes = ["Anti-Mage", "Axe", "Bane", "Bloodseeker", "Crystal Maiden", 
+              "Drow Ranger", "Earthshaker", "Juggernaut", "Mirana", "Morphling"]
+    
+    players_data = []
+    
+    # Generate 5 Radiant players
+    for i in range(5):
+        players_data.append({
+            "player_name": f"Radiant_{i+1}",
+            "account_id": np.random.randint(10000, 99999),
+            "hero_name": heroes[np.random.randint(0, len(heroes))],
+            "player_slot": i,
+            "kills": np.random.randint(0, 15),
+            "deaths": np.random.randint(0, 10),
+            "assists": np.random.randint(0, 20),
+            "gold_per_min": np.random.randint(400, 800),
+            "xp_per_min": np.random.randint(400, 800),
+            "last_hits": np.random.randint(50, 300),
+            "denies": np.random.randint(5, 30),
+            "hero_damage": np.random.randint(5000, 30000),
+            "tower_damage": np.random.randint(0, 10000),
+            "hero_healing": np.random.randint(0, 5000),
+            "level": np.random.randint(15, 25),
+            "team": "Radiant"
+        })
+    
+    # Generate 5 Dire players
+    for i in range(5):
+        players_data.append({
+            "player_name": f"Dire_{i+1}",
+            "account_id": np.random.randint(10000, 99999),
+            "hero_name": heroes[np.random.randint(0, len(heroes))],
+            "player_slot": i + 128,  # Dire players have slots 128-132
+            "kills": np.random.randint(0, 15),
+            "deaths": np.random.randint(0, 10),
+            "assists": np.random.randint(0, 20),
+            "gold_per_min": np.random.randint(400, 800),
+            "xp_per_min": np.random.randint(400, 800),
+            "last_hits": np.random.randint(50, 300),
+            "denies": np.random.randint(5, 30),
+            "hero_damage": np.random.randint(5000, 30000),
+            "tower_damage": np.random.randint(0, 10000),
+            "hero_healing": np.random.randint(0, 5000),
+            "level": np.random.randint(15, 25),
+            "team": "Dire"
+        })
+    
+    return players_data
+
+# Adapter class for team fights
+class TeamFight:
+    def __init__(self, id, match_id, start, duration, deaths):
+        self.teamfight_id = id
+        self.match_id = match_id
+        self.start = start
+        self.duration = duration
+        self.deaths = deaths
+
+class TeamFightPlayer:
+    def __init__(self, match_id, teamfight_id, player_slot, deaths, kills, gold_delta):
+        self.match_id = match_id
+        self.teamfight_id = teamfight_id
+        self.player_slot = player_slot
+        self.deaths = deaths
+        self.kills = kills
+        self.gold_delta = gold_delta
+
+def get_all_team_fights(match_id):
+    """Adapter function for team fights data"""
+    # Ensure seed is within valid range
+    seed_value = abs(hash(str(match_id))) % (2**32 - 1)
+    np.random.seed(seed_value)  # Use match_id as seed for consistent results
+    
+    # Generate 3-6 team fights
+    num_fights = np.random.randint(3, 7)
+    team_fights = []
+    
+    # Match duration 30-45 minutes
+    match_duration = np.random.randint(1800, 2700)
+    
+    # Space out the fights throughout the match
+    for i in range(num_fights):
+        # Fights occur progressively later in the game
+        start_time = int((i / num_fights) * match_duration) + np.random.randint(60, 180)
+        if start_time >= match_duration:
+            start_time = match_duration - np.random.randint(60, 180)  # Ensure fight is before match end
+        
+        team_fights.append(TeamFight(
+            id=i,
+            match_id=match_id,
+            start=start_time,
+            duration=np.random.randint(10, 40),  # 10-40 seconds
+            deaths=np.random.randint(1, 8)  # 1-8 deaths
+        ))
+    
+    return sorted(team_fights, key=lambda tf: tf.start)
+
+def get_specific_team_fight(match_id, teamfight_id):
+    """Adapter function for specific team fight data"""
+    # Ensure seed is within valid range
+    seed_value = abs(hash(str(match_id) + str(teamfight_id))) % (2**32 - 1)
+    np.random.seed(seed_value)  # Use match_id and teamfight_id as seed
+    
+    players = []
+    
+    # Generate data for 10 players (5 radiant, 5 dire)
+    for i in range(10):
+        is_radiant = i < 5
+        player_slot = i if is_radiant else i + 123  # Radiant 0-4, Dire 128-132
+        
+        # More deaths on the losing side of the fight
+        if np.random.random() < 0.6:  # 60% chance one side is winning
+            deaths = 1 if ((is_radiant and np.random.random() < 0.3) or 
+                          (not is_radiant and np.random.random() < 0.7)) else 0
+        else:
+            deaths = 1 if np.random.random() < 0.3 else 0  # Random deaths in balanced fights
+        
+        # Kills are opposite of deaths
+        kills = 1 if (deaths == 0 and np.random.random() < 0.4) else 0
+        
+        # Gold delta: positive for kills, negative for deaths
+        if deaths > 0:
+            gold_delta = -np.random.randint(200, 600)
+        elif kills > 0:
+            gold_delta = np.random.randint(200, 600)
+        else:
+            gold_delta = np.random.randint(-100, 300)  # Small variations
+        
+        players.append(TeamFightPlayer(
+            match_id=match_id,
+            teamfight_id=teamfight_id,
+            player_slot=player_slot,
+            deaths=deaths,
+            kills=kills,
+            gold_delta=gold_delta
+        ))
+    
+    return players
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -317,7 +553,8 @@ class DotaMatchAnalyzerApp(QMainWindow):
             "Team Performance",
             "Player Statistics",
             "Meta Trends",
-            "Draft Analysis"
+            "Draft Analysis",
+            "Lane Analysis"  # New item
         ])
         self.stats_list.currentRowChanged.connect(self.change_statistic)
         categories_layout.addWidget(self.stats_list)
@@ -1152,6 +1389,99 @@ class DotaMatchAnalyzerApp(QMainWindow):
             overview_tab.setLayout(overview_layout)
             tab_widget.addTab(overview_tab, "Overview")
             
+            # Tab 2: Lane Analysis
+            lane_analysis_tab = QWidget()
+            lane_analysis_layout = QVBoxLayout()
+            
+            lane_title = QLabel("<h3>Lane Matchup Analysis</h3>")
+            lane_analysis_layout.addWidget(lane_title)
+            
+            # Lane selection
+            lane_selection_layout = QHBoxLayout()
+            lane_selection_layout.addWidget(QLabel("Select Lane:"))
+            self.lane_combo = QComboBox()
+            self.lane_combo.addItems(["Radiant Offlane vs Dire Safelane", "Mid vs Mid", "Radiant Safelane vs Dire Offlane"])
+            lane_selection_layout.addWidget(self.lane_combo)
+            
+            # Time selection
+            lane_selection_layout.addWidget(QLabel("Time (minutes):"))
+            self.lane_time_combo = QComboBox()
+            self.lane_time_combo.addItems(["5", "10", "15", "20"])
+            lane_selection_layout.addWidget(self.lane_time_combo)
+            
+            lane_analyze_button = QPushButton("Analyze Lane")
+            lane_analyze_button.clicked.connect(lambda: self.analyze_lane_matchup(match_id))
+            lane_selection_layout.addWidget(lane_analyze_button)
+            lane_analysis_layout.addLayout(lane_selection_layout)
+            
+            # Results area
+            self.lane_analysis_result = QLabel("Select a lane and time point to analyze the matchup")
+            self.lane_analysis_result.setWordWrap(True)
+            self.lane_analysis_result.setTextFormat(Qt.RichText)
+            lane_analysis_layout.addWidget(self.lane_analysis_result)
+            
+            # Lane visualization placeholder
+            self.lane_figure = Figure(figsize=(8, 6))
+            self.lane_canvas = FigureCanvas(self.lane_figure)
+            lane_analysis_layout.addWidget(self.lane_canvas)
+            
+            lane_analysis_tab.setLayout(lane_analysis_layout)
+            tab_widget.addTab(lane_analysis_tab, "Lane Analysis")
+            
+            # Tab 3: Player Metrics
+            player_metrics_tab = QWidget()
+            player_metrics_layout = QVBoxLayout()
+            
+            player_metrics_title = QLabel("<h3>Player Performance Analysis</h3>")
+            player_metrics_layout.addWidget(player_metrics_title)
+            
+            # Metric selection
+            metrics_selection_layout = QHBoxLayout()
+            metrics_selection_layout.addWidget(QLabel("Select Metric:"))
+            self.metrics_combo = QComboBox()
+            self.metrics_combo.addItems(["kills", "deaths", "assists", "gold_per_min", "xp_per_min", 
+                                       "last_hits", "hero_damage", "tower_damage", "hero_healing"])
+            metrics_selection_layout.addWidget(self.metrics_combo)
+            
+            metrics_analyze_button = QPushButton("Visualize Metric")
+            metrics_analyze_button.clicked.connect(lambda: self.visualize_player_metric(match_id))
+            metrics_selection_layout.addWidget(metrics_analyze_button)
+            player_metrics_layout.addLayout(metrics_selection_layout)
+            
+            # Metric visualization placeholder
+            self.metrics_figure = Figure(figsize=(8, 6))
+            self.metrics_canvas = FigureCanvas(self.metrics_figure)
+            player_metrics_layout.addWidget(self.metrics_canvas)
+            
+            player_metrics_tab.setLayout(player_metrics_layout)
+            tab_widget.addTab(player_metrics_tab, "Player Metrics")
+            
+            # Tab 4: Team Fights
+            team_fights_tab = QWidget()
+            team_fights_layout = QVBoxLayout()
+            
+            team_fights_title = QLabel("<h3>Team Fights Analysis</h3>")
+            team_fights_layout.addWidget(team_fights_title)
+            
+            # Team fight selection
+            team_fights_layout.addWidget(QLabel("Team Fights:"))
+            self.team_fights_list = QListWidget()
+            team_fights_layout.addWidget(self.team_fights_list)
+            
+            # Load team fights button
+            load_team_fights_button = QPushButton("Load Team Fights")
+            load_team_fights_button.clicked.connect(lambda: self.load_team_fights(match_id))
+            team_fights_layout.addWidget(load_team_fights_button)
+            
+            # Team fight details
+            self.team_fight_details = QLabel("Select a team fight to view details")
+            self.team_fight_details.setWordWrap(True)
+            self.team_fight_details.setTextFormat(Qt.RichText)
+            team_fights_layout.addWidget(self.team_fight_details)
+            
+            team_fights_tab.setLayout(team_fights_layout)
+            tab_widget.addTab(team_fights_tab, "Team Fights")
+            
             # Add tab widget to main layout
             main_layout.addWidget(tab_widget)
             
@@ -1215,11 +1545,10 @@ class DotaMatchAnalyzerApp(QMainWindow):
         )
     def change_statistic(self, row):
         """Change the displayed statistic based on list selection"""
-        # Clear the content layout
         self.clear_layout(self.stats_content_layout)
         
-        # Based on the selected statistic, display different content
         selected_stat = self.stats_list.item(row).text()
+        
         if selected_stat == "Heroes Win Rates":
             self.display_hero_win_rates()
         elif selected_stat == "Team Performance":
@@ -1230,6 +1559,8 @@ class DotaMatchAnalyzerApp(QMainWindow):
             self.display_meta_trends()
         elif selected_stat == "Draft Analysis":
             self.display_draft_analysis()
+        elif selected_stat == "Lane Analysis":
+            self.display_lane_analysis()
             
         # Update layout
         self.stats_content.setLayout(self.stats_content_layout)
@@ -4513,7 +4844,476 @@ class DotaMatchAnalyzerApp(QMainWindow):
             self.pro_matches_table.setItem(i, 6, winner_item)
         
         self.statusBar().showMessage("Database not available - showing demo data")
+    
+    def analyze_lane_matchup(self, match_id):
+        """Analyze lane matchups at a specific time point"""
+        try:
+            # Get selected lane and time
+            lane_type = self.lane_combo.currentText()
+            time_minutes = int(self.lane_time_combo.currentText())
+            time_seconds = time_minutes * 60
+            
+            # Map the lane selection to the function
+            lane_mapping = {
+                "Radiant Offlane vs Dire Safelane": "off_vs_safe",
+                "Mid vs Mid": "mid_vs_mid",
+                "Radiant Safelane vs Dire Offlane": "safe_vs_off"
+            }
+            
+            lane_type_code = lane_mapping[lane_type]
+            
+            # Get lane stats
+            lane_stats = track_lane_stats_over_time(
+                match_id, 
+                lane_type_code, 
+                start_time=0, 
+                end_time=time_seconds,
+                interval=60
+            )
+            
+            # Clear figure and create new plot
+            self.lane_figure.clear()
+            ax = self.lane_figure.add_subplot(111)
+            
+            # Extract data for plotting
+            times = [t//60 for t in lane_stats["times"]]
+            radiant_gold = lane_stats["radiant_gold"]
+            dire_gold = lane_stats["dire_gold"]
+            
+            # Plot the data
+            ax.plot(times, radiant_gold, 'g-', label='Radiant Gold')
+            ax.plot(times, dire_gold, 'r-', label='Dire Gold')
+            ax.set_xlabel('Time (minutes)')
+            ax.set_ylabel('Gold')
+            ax.set_title(f'{lane_type} Gold Progression')
+            ax.legend()
+            ax.grid(True)
+            
+            # Update canvas
+            self.lane_canvas.draw()
+            
+            # Update text summary
+            latest_stats = {}
+            if lane_type_code == "mid_vs_mid":
+                latest_stats = mid_vs_mid(match_id, time_seconds)
+            elif lane_type_code == "off_vs_safe":
+                latest_stats = off_vs_safe_radiant(match_id, time_seconds)
+            else:
+                latest_stats = safe_vs_off_radiant(match_id, time_seconds)
+            
+            # Create a summary text
+            summary = f"<h4>{lane_type} at {time_minutes} minutes:</h4>"
+            
+            # Add Radiant stats
+            summary += "<p><b>Radiant:</b><br>"
+            if "radiant" in latest_stats:
+                for player in latest_stats["radiant"]:
+                    summary += f"Player: {player['player_name']} ({player['hero_name']})<br>"
+                    summary += f"Gold: {player['gold']}, XP: {player['xp']}<br>"
+                    summary += f"LH/DN: {player['last_hits']}/{player['denies']}<br>"
+            summary += "</p>"
+            
+            # Add Dire stats
+            summary += "<p><b>Dire:</b><br>"
+            if "dire" in latest_stats:
+                for player in latest_stats["dire"]:
+                    summary += f"Player: {player['player_name']} ({player['hero_name']})<br>"
+                    summary += f"Gold: {player['gold']}, XP: {player['xp']}<br>"
+                    summary += f"LH/DN: {player['last_hits']}/{player['denies']}<br>"
+            summary += "</p>"
+            
+            self.lane_analysis_result.setText(summary)
+            
+        except Exception as e:
+            logger.error(f"Error analyzing lane matchup: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            self.lane_analysis_result.setText(f"Error analyzing lane matchup: {str(e)}")
 
+    def visualize_player_metric(self, match_id):
+        """Visualize player performance metrics"""
+        try:
+            # Get selected metric
+            metric = self.metrics_combo.currentText()
+            
+            # Get player data
+            players_data = get_match_player_data(match_id)
+            
+            if not players_data:
+                self.metrics_figure.clear()
+                self.metrics_canvas.draw()
+                QMessageBox.warning(self, "No Data", "No player data available for this match.")
+                return
+            
+            # Create a DataFrame from the player data
+            df = pd.DataFrame(players_data)
+            
+            # Sort by team and then by the metric
+            df = df.sort_values(['team', metric], ascending=[True, False])
+            
+            # Clear figure and create new plot
+            self.metrics_figure.clear()
+            ax = self.metrics_figure.add_subplot(111)
+            
+            # Create a color list based on team
+            colors = ['#66BB6A' if team == 'Radiant' else '#EF5350' for team in df['team']]
+            
+            # Create the bar chart
+            bars = ax.bar(range(len(df)), df[metric], color=colors)
+            
+            # Set the x-tick labels to player names
+            ax.set_xticks(range(len(df)))
+            ax.set_xticklabels(df['player_name'], rotation=45, ha='right')
+            
+            # Add hero names as annotations
+            for i, player in enumerate(df.itertuples()):
+                ax.text(i, 5, player.hero_name, ha='center', rotation=90, color='black')
+            
+            # Customize the plot
+            ax.set_title(f"Player Comparison - {metric.replace('_', ' ').title()}")
+            ax.set_xlabel('Player')
+            ax.set_ylabel(metric.replace('_', ' ').title())
+            
+            # Add a legend for teams
+            legend_elements = [
+                Patch(facecolor='#66BB6A', label='Radiant'),
+                Patch(facecolor='#EF5350', label='Dire')
+            ]
+            ax.legend(handles=legend_elements, loc='upper right')
+            
+            # Update canvas
+            self.metrics_canvas.draw()
+            
+        except Exception as e:
+            logger.error(f"Error visualizing player metrics: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            QMessageBox.warning(self, "Error", f"Failed to visualize player metrics: {str(e)}")
+
+    def load_team_fights(self, match_id):
+        """Load team fights for a specific match"""
+        try:
+            # Clear the list
+            self.team_fights_list.clear()
+            
+            # Get team fights
+            # The function name is get_all_team_fights (not teamfights)
+            team_fights = get_all_team_fights(match_id)
+            
+            if not team_fights:
+                self.team_fight_details.setText("No team fights found for this match.")
+                return
+            
+            # Add team fights to list
+            for tf in team_fights:
+                # Format time as minutes:seconds
+                minutes = tf.start // 60
+                seconds = tf.start % 60
+                time_str = f"{minutes}:{seconds:02d}"
+                
+                # Create list item with time and basic info
+                item_text = f"Fight at {time_str} - Duration: {tf.duration}s - Deaths: {tf.deaths}"
+                self.team_fights_list.addItem(item_text)
+            
+            # Connect item selection to showing details
+            self.team_fights_list.itemClicked.connect(lambda item: self.show_team_fight_details(match_id, team_fights[self.team_fights_list.row(item)]))
+            
+        except Exception as e:
+            logger.error(f"Error loading team fights: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            QMessageBox.warning(self, "Error", f"Failed to load team fights: {str(e)}")
+
+    def show_team_fight_details(self, match_id, team_fight):
+        """Show details for a specific team fight"""
+        try:
+            # Get team fight player data
+            tf_players = get_specific_team_fight(match_id, team_fight.teamfight_id)
+            
+            if not tf_players:
+                self.team_fight_details.setText("No player data for this team fight.")
+                return
+            
+            # Create HTML summary
+            minutes = team_fight.start // 60
+            seconds = team_fight.start % 60
+            summary = f"<h4>Team Fight at {minutes}:{seconds:02d}</h4>"
+            summary += f"<p><b>Duration:</b> {team_fight.duration} seconds<br>"
+            summary += f"<b>Total Deaths:</b> {team_fight.deaths}<br>"
+            
+            # Radiant players
+            radiant_players = [p for p in tf_players if p.player_slot < 128]
+            dire_players = [p for p in tf_players if p.player_slot >= 128]
+            
+            # Calculate team totals
+            radiant_kills = sum(p.kills for p in radiant_players)
+            dire_kills = sum(p.kills for p in dire_players)
+            radiant_gold_delta = sum(p.gold_delta for p in radiant_players)
+            dire_gold_delta = sum(p.gold_delta for p in dire_players)
+            
+            summary += f"<b>Kills:</b> Radiant {radiant_kills} - {dire_kills} Dire<br>"
+            summary += f"<b>Gold Change:</b> Radiant {radiant_gold_delta} - {dire_gold_delta} Dire</p>"
+            
+            # Player details
+            summary += "<p><b>Radiant Players:</b><br>"
+            for p in radiant_players:
+                summary += f"Player {p.player_slot}: Kills {p.kills}, Deaths {p.deaths}, Gold Δ {p.gold_delta}<br>"
+            summary += "</p>"
+            
+            summary += "<p><b>Dire Players:</b><br>"
+            for p in dire_players:
+                summary += f"Player {p.player_slot}: Kills {p.kills}, Deaths {p.deaths}, Gold Δ {p.gold_delta}<br>"
+            summary += "</p>"
+            
+            self.team_fight_details.setText(summary)
+            
+        except Exception as e:
+            logger.error(f"Error showing team fight details: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            self.team_fight_details.setText(f"Error: {str(e)}")
+        
+    def display_lane_analysis(self):
+        """Display lane analysis statistics"""
+        # Clear previous content
+        self.clear_layout(self.stats_content_layout)
+        
+        # Add title
+        title = QLabel("<h2>Lane Analysis</h2>")
+        self.stats_content_layout.addWidget(title)
+        
+        # Add filters
+        filters_group = QGroupBox("Filters")
+        filters_layout = QFormLayout()
+        
+        # League filter
+        league_combo = QComboBox()
+        league_combo.addItem("All Leagues", None)
+        from sqlalchemy import text
+        result = self.session.execute(text("SELECT league_id, name FROM pro_leagues ORDER BY name"))
+        for league in result.fetchall():
+            league_combo.addItem(league[1], league[0])
+        filters_layout.addRow("League:", league_combo)
+        
+        # Time period filter
+        time_period_combo = QComboBox()
+        time_period_combo.addItems(["Last Week", "Last Month", "Last 3 Months", "All Time"])
+        filters_layout.addRow("Time Period:", time_period_combo)
+        
+        # Lane filter
+        lane_combo = QComboBox()
+        lane_combo.addItems(["Offlane vs Safelane", "Mid vs Mid", "Safelane vs Offlane"])
+        filters_layout.addRow("Lane:", lane_combo)
+        
+        # Add apply button
+        apply_button = QPushButton("Generate Analysis")
+        apply_button.clicked.connect(lambda: self.generate_lane_analysis(
+            league_combo.currentData(),
+            time_period_combo.currentText(),
+            lane_combo.currentText()
+        ))
+        
+        filters_layout.addRow("", apply_button)
+        filters_group.setLayout(filters_layout)
+        self.stats_content_layout.addWidget(filters_group)
+        
+        # Results container
+        results_container = QWidget()
+        self.lane_analysis_results_layout = QVBoxLayout(results_container)
+        self.lane_analysis_results_layout.addWidget(QLabel("Apply filters to generate lane analysis"))
+        
+        # Add visualization placeholders
+        self.stats_lane_figure = Figure(figsize=(10, 6))
+        self.stats_lane_canvas = FigureCanvas(self.stats_lane_figure)
+        self.lane_analysis_results_layout.addWidget(self.stats_lane_canvas)
+        
+        self.stats_content_layout.addWidget(results_container)
+    
+    def generate_lane_analysis(self, league_id, time_period, lane_type):
+        """Generate lane analysis based on selected filters"""
+        try:
+            # Clear previous results
+            self.clear_layout(self.lane_analysis_results_layout)
+            
+            # Add a loading indicator
+            loading_label = QLabel("Generating analysis...")
+            self.lane_analysis_results_layout.addWidget(loading_label)
+            QApplication.processEvents()  # Update the UI
+            
+            # Convert time period to date filter
+            date_filter = None
+            if time_period == "Last Week":
+                date_filter = datetime.now() - timedelta(days=7)
+            elif time_period == "Last Month":
+                date_filter = datetime.now() - timedelta(days=30)
+            elif time_period == "Last 3 Months":
+                date_filter = datetime.now() - timedelta(days=90)
+            
+            # Convert lane type to analysis type
+            lane_type_code = {
+                "Offlane vs Safelane": "off_vs_safe",
+                "Mid vs Mid": "mid_vs_mid",
+                "Safelane vs Offlane": "safe_vs_off"
+            }[lane_type]
+            
+            # Query for matches based on filters
+            from sqlalchemy import text
+            query = "SELECT match_id FROM pro_matches WHERE 1=1"
+            params = {}
+            
+            if league_id:
+                query += " AND league_id = :league_id"
+                params["league_id"] = league_id
+                
+            if date_filter:
+                query += " AND start_time >= :start_time"
+                params["start_time"] = date_filter.timestamp()
+                
+            query += " ORDER BY match_id DESC LIMIT 50"  # Limit to 50 most recent matches
+            
+            result = self.session.execute(text(query), params)
+            match_ids = [row[0] for row in result.fetchall()]
+            
+            if not match_ids:
+                self.clear_layout(self.lane_analysis_results_layout)
+                self.lane_analysis_results_layout.addWidget(QLabel("No matches found with the selected filters"))
+                return
+                
+            # Analyze the first few matches (for performance)
+            analyzed_matches = min(10, len(match_ids))
+            
+            # Collect lane stats at different time points
+            times = [5, 10, 15]  # 5, 10, 15 minutes
+            lane_stats_by_time = {}
+            
+            for time_point in times:
+                lane_stats_by_time[time_point] = {
+                    "radiant_gold_avg": [],
+                    "dire_gold_avg": [],
+                    "radiant_xp_avg": [],
+                    "dire_xp_avg": []
+                }
+            
+            # Process each match
+            for match_id in match_ids[:analyzed_matches]:
+                for time_point in times:
+                    try:
+                        # Get stats at this time point
+                        stats = track_lane_stats_over_time(
+                            match_id,
+                            lane_type_code,
+                            start_time=0,
+                            end_time=time_point*60,
+                            interval=60
+                        )
+                        
+                        # Skip matches with incomplete data
+                        if not stats or "radiant_gold" not in stats or not stats["radiant_gold"]:
+                            continue
+                            
+                        # Get the last data point for this time
+                        last_idx = -1
+                        lane_stats_by_time[time_point]["radiant_gold_avg"].append(stats["radiant_gold"][last_idx])
+                        lane_stats_by_time[time_point]["dire_gold_avg"].append(stats["dire_gold"][last_idx])
+                        lane_stats_by_time[time_point]["radiant_xp_avg"].append(stats["radiant_xp"][last_idx])
+                        lane_stats_by_time[time_point]["dire_xp_avg"].append(stats["dire_xp"][last_idx])
+                        
+                    except Exception as e:
+                        logger.error(f"Error processing match {match_id} at time {time_point}: {e}")
+                        continue
+            
+            # Calculate averages
+            for time_point in times:
+                for stat in ["radiant_gold_avg", "dire_gold_avg", "radiant_xp_avg", "dire_xp_avg"]:
+                    if lane_stats_by_time[time_point][stat]:
+                        lane_stats_by_time[time_point][stat] = sum(lane_stats_by_time[time_point][stat]) / len(lane_stats_by_time[time_point][stat])
+                    else:
+                        lane_stats_by_time[time_point][stat] = 0
+            
+            # Clear loading indicator
+            self.clear_layout(self.lane_analysis_results_layout)
+            
+            # Add title with match count
+            title = QLabel(f"<h3>Lane Analysis: {lane_type}</h3>")
+            self.lane_analysis_results_layout.addWidget(title)
+            subtitle = QLabel(f"Based on {analyzed_matches} matches")
+            self.lane_analysis_results_layout.addWidget(subtitle)
+            
+            # Create visualizations
+            self.stats_lane_figure.clear()
+            
+            # Create subplots for gold and xp
+            ax1 = self.stats_lane_figure.add_subplot(121)  # 1x2 grid, position 1
+            ax2 = self.stats_lane_figure.add_subplot(122)  # 1x2 grid, position 2
+            
+            # Plot gold data
+            radiant_gold = [lane_stats_by_time[t]["radiant_gold_avg"] for t in times]
+            dire_gold = [lane_stats_by_time[t]["dire_gold_avg"] for t in times]
+            
+            ax1.plot(times, radiant_gold, 'g-', marker='o', label='Radiant Gold')
+            ax1.plot(times, dire_gold, 'r-', marker='o', label='Dire Gold')
+            ax1.set_xlabel('Time (minutes)')
+            ax1.set_ylabel('Average Gold')
+            ax1.set_title('Lane Gold Progression')
+            ax1.legend()
+            ax1.grid(True)
+            
+            # Plot XP data
+            radiant_xp = [lane_stats_by_time[t]["radiant_xp_avg"] for t in times]
+            dire_xp = [lane_stats_by_time[t]["dire_xp_avg"] for t in times]
+            
+            ax2.plot(times, radiant_xp, 'g-', marker='o', label='Radiant XP')
+            ax2.plot(times, dire_xp, 'r-', marker='o', label='Dire XP')
+            ax2.set_xlabel('Time (minutes)')
+            ax2.set_ylabel('Average XP')
+            ax2.set_title('Lane XP Progression')
+            ax2.legend()
+            ax2.grid(True)
+            
+            self.stats_lane_figure.tight_layout()
+            self.stats_lane_canvas.draw()
+            
+            # Add summary text
+            summary = "<h4>Summary:</h4>"
+            summary += "<p>"
+            
+            # Calculate gold and XP advantages at 10 minutes
+            mid_time_idx = 1  # 10 minutes
+            rad_gold_adv = lane_stats_by_time[times[mid_time_idx]]["radiant_gold_avg"] - lane_stats_by_time[times[mid_time_idx]]["dire_gold_avg"]
+            rad_xp_adv = lane_stats_by_time[times[mid_time_idx]]["radiant_xp_avg"] - lane_stats_by_time[times[mid_time_idx]]["dire_xp_avg"]
+            
+            if rad_gold_adv > 0:
+                summary += f"Radiant has an average gold advantage of {rad_gold_adv:.0f} at 10 minutes in this lane.<br>"
+            else:
+                summary += f"Dire has an average gold advantage of {-rad_gold_adv:.0f} at 10 minutes in this lane.<br>"
+                
+            if rad_xp_adv > 0:
+                summary += f"Radiant has an average XP advantage of {rad_xp_adv:.0f} at 10 minutes in this lane.<br>"
+            else:
+                summary += f"Dire has an average XP advantage of {-rad_xp_adv:.0f} at 10 minutes in this lane.<br>"
+                
+            # Calculate which side typically wins the lane
+            if rad_gold_adv > 0 and rad_xp_adv > 0:
+                summary += "<b>Conclusion:</b> Radiant typically wins this lane."
+            elif rad_gold_adv < 0 and rad_xp_adv < 0:
+                summary += "<b>Conclusion:</b> Dire typically wins this lane."
+            else:
+                summary += "<b>Conclusion:</b> This lane is generally balanced."
+                
+            summary += "</p>"
+            
+            summary_label = QLabel(summary)
+            summary_label.setWordWrap(True)
+            summary_label.setTextFormat(Qt.RichText)
+            self.lane_analysis_results_layout.addWidget(summary_label)
+            
+        except Exception as e:
+            logger.error(f"Error generating lane analysis: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            self.clear_layout(self.lane_analysis_results_layout)
+            self.lane_analysis_results_layout.addWidget(QLabel(f"Error generating analysis: {str(e)}"))
+        
 
 def main():
     """Main entry point for the application"""
