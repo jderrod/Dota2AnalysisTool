@@ -45,3 +45,7 @@ var/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Environment variables and API keys
+.env
+.env.*
