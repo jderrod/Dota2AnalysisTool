@@ -11,6 +11,12 @@ import numpy as np
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine, inspect, func, text
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
+from dotenv import load_dotenv
+
+# Load environment variables from .env file at project root
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+env_path = os.path.join(project_root, '.env')
+load_dotenv(dotenv_path=env_path)
 
 # Import visualization libraries
 import matplotlib
@@ -26,7 +32,8 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QTableWidget, QTableWidg
                              QVBoxLayout, QHBoxLayout, QFormLayout, QLabel,
                              QWidget, QPushButton, QTabWidget, QGroupBox,
                              QComboBox, QDateEdit, QHeaderView, QGridLayout,
-                             QLineEdit, QMessageBox, QListWidget, QSplitter, QTreeWidget, QTreeWidgetItem)
+                             QLineEdit, QMessageBox, QListWidget, QSplitter, QTreeWidget, QTreeWidgetItem,
+                             QProgressBar, QFrame)
 from PyQt5.QtCore import Qt, QDate, QSize
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QIcon, QFont
@@ -234,29 +241,57 @@ class DotaMatchAnalyzerApp(QMainWindow):
         user_matches_tab = QWidget()
         layout = QVBoxLayout()
         
-        # Steam ID input
+        # User information section
+        user_info_group = QGroupBox("User Information")
+        user_info_layout = QVBoxLayout()
+        
+        # Steam ID input with explanation
+        id_explanation = QLabel("Enter your Steam32 ID to load your recent matches. Your matches will be stored locally for analysis.")
+        id_explanation.setWordWrap(True)
+        user_info_layout.addWidget(id_explanation)
+        
         steam_id_layout = QHBoxLayout()
-        steam_id_layout.addWidget(QLabel("Steam ID:"))
+        steam_id_layout.addWidget(QLabel("Steam32 ID:"))
         self.steam_id_input = QLineEdit()
-        self.steam_id_input.setPlaceholderText("Enter Steam ID (e.g., 76561197960435530)")
+        self.steam_id_input.setPlaceholderText("Enter Steam32 ID (e.g., 123456789)")
         steam_id_layout.addWidget(self.steam_id_input)
         
-        self.load_user_button = QPushButton("Load User Matches")
+        self.load_user_button = QPushButton("Load 100 Recent Matches")
         self.load_user_button.clicked.connect(self.load_user_matches)
         steam_id_layout.addWidget(self.load_user_button)
         
-        layout.addLayout(steam_id_layout)
+        user_info_layout.addLayout(steam_id_layout)
         
-        # User matches table
+        # Add help text about finding Steam32 ID
+        help_text = QLabel("Don't know your Steam32 ID? Visit <a href='https://steamid.xyz/'>steamid.xyz</a> and enter your Steam profile URL to find it.")
+        help_text.setTextFormat(Qt.RichText)
+        help_text.setOpenExternalLinks(True)
+        help_text.setWordWrap(True)
+        user_info_layout.addWidget(help_text)
+        
+        user_info_group.setLayout(user_info_layout)
+        layout.addWidget(user_info_group)
+        
+        # User matches table with more detailed information
         self.user_matches_table = QTableWidget()
-        self.user_matches_table.setColumnCount(6)
+        self.user_matches_table.setColumnCount(8)
         self.user_matches_table.setHorizontalHeaderLabels([
-            "Match ID", "Date", "Duration", "Game Mode", "Hero", "Result"
+            "Match ID", "Date", "Duration", "Game Mode", "Hero", "K/D/A", "GPM/XPM", "Result"
         ])
         self.user_matches_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.user_matches_table.setSelectionBehavior(QTableWidget.SelectRows)
         self.user_matches_table.setSelectionMode(QTableWidget.SingleSelection)
         self.user_matches_table.itemDoubleClicked.connect(self.open_user_match_details)
+        
+        # Status info label
+        self.user_status_label = QLabel("Enter your Steam32 ID and click 'Load 100 Recent Matches' to begin")
+        self.user_status_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.user_status_label)
+        
+        # Progress bar for loading matches
+        self.user_progress_bar = QProgressBar()
+        self.user_progress_bar.setVisible(False)
+        layout.addWidget(self.user_progress_bar)
         
         layout.addWidget(self.user_matches_table)
         
@@ -523,32 +558,47 @@ class DotaMatchAnalyzerApp(QMainWindow):
             self.load_demo_matches()
     
     def load_user_matches(self):
-        """Load matches for a specific Steam user"""
+        """Load matches for a specific Steam user using OpenDota API"""
         steam_id = self.steam_id_input.text().strip()
         
         if not steam_id:
-            QMessageBox.warning(self, "Input Error", "Please enter a valid Steam ID")
+            QMessageBox.warning(self, "Input Error", "Please enter a valid Steam32 ID")
             return
         
-        self.statusBar().showMessage(f"Loading matches for Steam ID: {steam_id}...")
+        # Update status and show progress bar
+        self.statusBar().showMessage(f"Loading matches for Steam32 ID: {steam_id}...")
+        self.user_status_label.setText(f"Fetching match data from OpenDota API for account {steam_id}...")
+        self.user_progress_bar.setVisible(True)
+        self.user_progress_bar.setValue(0)
         
         try:
             # Get or create user
             user = self.user_db.get_or_create_user(steam_id)
             
-            # Update matches (this will fetch new ones from API if available)
-            self.user_db.update_user_matches(user, limit=20)
+            # Update the UI
+            self.user_status_label.setText(f"Found user: {user.username or steam_id}. Fetching 100 recent matches...")
+            self.user_progress_bar.setValue(10)
+            
+            # Update progress as we go
+            QApplication.processEvents()
+            
+            # Update matches (this will fetch 100 new ones from OpenDota API)
+            self.user_db.update_user_matches(user, limit=100)
+            self.user_progress_bar.setValue(50)
+            QApplication.processEvents()
             
             # Get user matches from database
-            matches = self.user_db.get_user_matches(user, limit=50)
+            matches = self.user_db.get_user_matches(user, limit=100)
+            self.user_progress_bar.setValue(75)
+            QApplication.processEvents()
             
             # Clear the table
             self.user_matches_table.setRowCount(0)
             
-            # Add matches to the table
+            # Add matches to the table with more information
             for i, match in enumerate(matches):
-                # Get the player data for this user
-                player = next((p for p in match.players if p.account_id == user.account_id), None)
+                # Get the player data for this user from the match
+                player = next((p for p in match.players if str(p.account_id) == str(user.account_id)), None)
                 
                 if player:
                     self.user_matches_table.insertRow(i)
@@ -572,19 +622,246 @@ class DotaMatchAnalyzerApp(QMainWindow):
                     hero_name = self.get_hero_name(player.hero_id)
                     self.user_matches_table.setItem(i, 4, QTableWidgetItem(hero_name))
                     
-                    # Result
+                    # Add K/D/A column
+                    kda_text = f"{player.kills}/{player.deaths}/{player.assists}"
+                    self.user_matches_table.setItem(i, 5, QTableWidgetItem(kda_text))
+                    
+                    # Add GPM/XPM column
+                    gpm_xpm_text = f"{player.gold_per_min}/{player.xp_per_min}"
+                    self.user_matches_table.setItem(i, 6, QTableWidgetItem(gpm_xpm_text))
+                    
+                    # Result - enhanced with team and win/loss color coding
                     player_team = "Radiant" if player.player_slot < 128 else "Dire"
                     player_won = (player_team == "Radiant" and match.radiant_win) or (player_team == "Dire" and not match.radiant_win)
                     
-                    result_item = QTableWidgetItem("Won" if player_won else "Lost")
+                    result_text = f"{player_team} - {'Won' if player_won else 'Lost'}"
+                    result_item = QTableWidgetItem(result_text)
                     result_item.setForeground(Qt.green if player_won else Qt.red)
-                    self.user_matches_table.setItem(i, 5, result_item)
+                    self.user_matches_table.setItem(i, 7, result_item)
             
-            self.status_bar.showMessage(f"Loaded {len(matches)} matches for {user.username or steam_id}")
+            # Hide progress bar and update status
+            self.user_progress_bar.setVisible(False)
+            if matches:
+                self.user_status_label.setText(f"Loaded {len(matches)} matches for {user.username or steam_id}")
+            else:
+                self.user_status_label.setText(f"No matches found for {user.username or steam_id}")
+                
+            self.statusBar().showMessage(f"Loaded {len(matches)} matches for {user.username or steam_id}")
         
         except Exception as e:
             logger.error(f"Error loading user matches: {e}")
-            self.status_bar.showMessage(f"Error: {str(e)}")
+            import traceback
+            logger.error(traceback.format_exc())
+            self.user_status_label.setText(f"Error: {str(e)}")
+            self.user_progress_bar.setVisible(False)
+            self.statusBar().showMessage(f"Error: {str(e)}")
+            QMessageBox.warning(self, "Error", f"Failed to load matches: {str(e)}\n\nCheck the log for details.")
+
+    
+    def open_user_match_details(self, item):
+        """Open detailed view for a user match"""
+        # Get match ID from the first column
+        match_id = self.user_matches_table.item(item.row(), 0).text()
+        
+        # Create a detailed match window
+        self.user_match_details_window = QMainWindow(self)
+        self.user_match_details_window.setWindowTitle(f"User Match {match_id} Details")
+        self.user_match_details_window.setGeometry(150, 150, 1000, 800)
+        
+        # Create central widget and layout
+        central_widget = QWidget()
+        main_layout = QVBoxLayout()
+        
+        try:
+            # Fetch match data
+            match = self.user_db.session.query(UserMatch).filter_by(match_id=match_id).first()
+            
+            if not match:
+                main_layout.addWidget(QLabel(f"Match {match_id} not found in database."))
+                central_widget.setLayout(main_layout)
+                self.user_match_details_window.setCentralWidget(central_widget)
+                self.user_match_details_window.show()
+                return
+                
+            # Get all players in this match
+            players = self.user_db.get_user_match_players(match_id)
+            
+            # Create match header section
+            header_widget = QWidget()
+            header_layout = QHBoxLayout()
+            
+            # Format match date
+            formatted_date = match.start_time.strftime('%Y-%m-%d %H:%M') if match.start_time else "Unknown"
+            
+            # Format duration
+            duration_mins = match.duration // 60
+            duration_secs = match.duration % 60
+            duration_str = f"{duration_mins}:{duration_secs:02d}"
+            
+            # Match info
+            match_info = f"""<h2>Match {match_id}</h2>
+                <b>Date:</b> {formatted_date}<br>
+                <b>Duration:</b> {duration_str}<br>
+                <b>Game Mode:</b> {self.get_game_mode_name(match.game_mode)}<br>
+                <b>Result:</b> {'Radiant' if match.radiant_win else 'Dire'} Victory<br>
+                <b>Score:</b> {match.radiant_score} - {match.dire_score}<br>
+            """
+            match_info_label = QLabel(match_info)
+            match_info_label.setTextFormat(Qt.RichText)
+            header_layout.addWidget(match_info_label)
+            
+            # Match link to OpenDota
+            opendota_link = QLabel(f"<a href='https://www.opendota.com/matches/{match_id}'>View on OpenDota</a>")
+            opendota_link.setTextFormat(Qt.RichText)
+            opendota_link.setOpenExternalLinks(True)
+            header_layout.addWidget(opendota_link, alignment=Qt.AlignRight | Qt.AlignTop)
+            
+            header_widget.setLayout(header_layout)
+            main_layout.addWidget(header_widget)
+            
+            # Create tabs for different match details
+            tabs = QTabWidget()
+            
+            # Tab 1: Players overview
+            players_tab = QWidget()
+            players_layout = QVBoxLayout()
+            
+            # Create player tables for each team
+            radiant_players = [p for p in players if p.player_slot < 128]
+            dire_players = [p for p in players if p.player_slot >= 128]
+            
+            # Add table titles
+            players_layout.addWidget(QLabel("<h3>Radiant Team</h3>"))
+            
+            # Create player table
+            radiant_table = QTableWidget()
+            radiant_table.setColumnCount(10)
+            radiant_table.setRowCount(len(radiant_players))
+            radiant_table.setHorizontalHeaderLabels(["Hero", "Player", "K", "D", "A", "LH/DN", "GPM", "XPM", "HD", "Items"])
+            radiant_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            
+            # Add player data
+            for i, player in enumerate(radiant_players):
+                hero_name = self.get_hero_name(player.hero_id)
+                radiant_table.setItem(i, 0, QTableWidgetItem(hero_name))
+                
+                # If account_id is available, show account ID, otherwise show player_slot
+                player_text = str(player.account_id) if player.account_id else f"Player {player.player_slot}"
+                radiant_table.setItem(i, 1, QTableWidgetItem(player_text))
+                
+                # KDA
+                radiant_table.setItem(i, 2, QTableWidgetItem(str(player.kills)))
+                radiant_table.setItem(i, 3, QTableWidgetItem(str(player.deaths)))
+                radiant_table.setItem(i, 4, QTableWidgetItem(str(player.assists)))
+                
+                # Last hits/denies
+                lh_dn = f"{player.last_hits}/{player.denies}"
+                radiant_table.setItem(i, 5, QTableWidgetItem(lh_dn))
+                
+                # GPM/XPM
+                radiant_table.setItem(i, 6, QTableWidgetItem(str(player.gold_per_min)))
+                radiant_table.setItem(i, 7, QTableWidgetItem(str(player.xp_per_min)))
+                
+                # Hero damage
+                radiant_table.setItem(i, 8, QTableWidgetItem(str(player.hero_damage)))
+                
+                # Items
+                item_ids = [player.item_0, player.item_1, player.item_2, player.item_3, player.item_4, player.item_5]
+                items_text = ", ".join([str(item_id) for item_id in item_ids if item_id])
+                radiant_table.setItem(i, 9, QTableWidgetItem(items_text))
+            
+            players_layout.addWidget(radiant_table)
+            
+            # Dire team
+            players_layout.addWidget(QLabel("<h3>Dire Team</h3>"))
+            
+            dire_table = QTableWidget()
+            dire_table.setColumnCount(10)
+            dire_table.setRowCount(len(dire_players))
+            dire_table.setHorizontalHeaderLabels(["Hero", "Player", "K", "D", "A", "LH/DN", "GPM", "XPM", "HD", "Items"])
+            dire_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            
+            # Add player data
+            for i, player in enumerate(dire_players):
+                hero_name = self.get_hero_name(player.hero_id)
+                dire_table.setItem(i, 0, QTableWidgetItem(hero_name))
+                
+                # If account_id is available, show account ID, otherwise show player_slot
+                player_text = str(player.account_id) if player.account_id else f"Player {player.player_slot}"
+                dire_table.setItem(i, 1, QTableWidgetItem(player_text))
+                
+                # KDA
+                dire_table.setItem(i, 2, QTableWidgetItem(str(player.kills)))
+                dire_table.setItem(i, 3, QTableWidgetItem(str(player.deaths)))
+                dire_table.setItem(i, 4, QTableWidgetItem(str(player.assists)))
+                
+                # Last hits/denies
+                lh_dn = f"{player.last_hits}/{player.denies}"
+                dire_table.setItem(i, 5, QTableWidgetItem(lh_dn))
+                
+                # GPM/XPM
+                dire_table.setItem(i, 6, QTableWidgetItem(str(player.gold_per_min)))
+                dire_table.setItem(i, 7, QTableWidgetItem(str(player.xp_per_min)))
+                
+                # Hero damage
+                dire_table.setItem(i, 8, QTableWidgetItem(str(player.hero_damage)))
+                
+                # Items
+                item_ids = [player.item_0, player.item_1, player.item_2, player.item_3, player.item_4, player.item_5]
+                items_text = ", ".join([str(item_id) for item_id in item_ids if item_id])
+                dire_table.setItem(i, 9, QTableWidgetItem(items_text))
+            
+            players_layout.addWidget(dire_table)
+            players_tab.setLayout(players_layout)
+            tabs.addTab(players_tab, "Players")
+            
+            # Add the tabs widget to the main layout
+            main_layout.addWidget(tabs)
+            
+            # Bottom section with match stats
+            bottom_widget = QWidget()
+            bottom_layout = QHBoxLayout()
+            
+            # Find which player is the current user
+            if hasattr(self, 'steam_id_input') and self.steam_id_input.text().strip():
+                user_id = self.steam_id_input.text().strip()
+                user_player = next((p for p in players if str(p.account_id) == user_id), None)
+                
+                if user_player:
+                    # Display user performance
+                    user_stats = f"""<h3>Your Performance</h3>
+                        <b>Hero:</b> {self.get_hero_name(user_player.hero_id)}<br>
+                        <b>KDA:</b> {user_player.kills}/{user_player.deaths}/{user_player.assists}<br>
+                        <b>Last Hits/Denies:</b> {user_player.last_hits}/{user_player.denies}<br>
+                        <b>GPM/XPM:</b> {user_player.gold_per_min}/{user_player.xp_per_min}<br>
+                        <b>Hero Damage:</b> {user_player.hero_damage}<br>
+                    """
+                    user_stats_label = QLabel(user_stats)
+                    user_stats_label.setTextFormat(Qt.RichText)
+                    bottom_layout.addWidget(user_stats_label)
+            
+            # Add a spacer
+            bottom_layout.addStretch()
+            
+            # Match outcome indicator
+            outcome_label = QLabel(f"<h2>{'Radiant' if match.radiant_win else 'Dire'} Victory</h2>")
+            outcome_label.setTextFormat(Qt.RichText)
+            outcome_label.setAlignment(Qt.AlignRight)
+            bottom_layout.addWidget(outcome_label)
+            
+            bottom_widget.setLayout(bottom_layout)
+            main_layout.addWidget(bottom_widget)
+            
+            # Set the layout and show the window
+            central_widget.setLayout(main_layout)
+            self.user_match_details_window.setCentralWidget(central_widget)
+            self.user_match_details_window.show()
+        
+        except Exception as e:
+            logger.error(f"Error displaying user match details: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            QMessageBox.warning(self, "Error", f"Failed to load match details: {str(e)}")
     
     def open_match_details(self, item):
         """Open detailed view for a professional match"""
@@ -1949,16 +2226,151 @@ class DotaMatchAnalyzerApp(QMainWindow):
                 logger.warning("No team data found with the current filters")
             
             # Update status
-            self.statusBar().showMessage(f"Loaded performance stats for {len(sorted_teams)} teams")
+            self.statusBar().showMessage(f"Loaded team rankings for {len(sorted_teams)} teams")
+            
+            # Add visualizations if we have teams to display
+            if sorted_teams:
+                # Get top 10 teams for charts (or all if less than 10)
+                top_teams = sorted_teams[:min(10, len(sorted_teams))]
+                
+                # Extract data for visualization
+                team_names = [team[1]["team_name"] for team in top_teams]
+                win_rates = [team[1]["win_rate"] for team in top_teams]
+                matches = [team[1]["matches"] for team in top_teams]
+                wins = [team[1]["wins"] for team in top_teams]
+                losses = [team[1]["losses"] for team in top_teams]
+                durations = [team[1]["avg_duration"]/60 for team in top_teams]  # Convert to minutes
+                
+                # Create visualization frame
+                viz_frame = QFrame()
+                viz_frame.setFrameShape(QFrame.StyledPanel)
+                viz_frame.setFrameShadow(QFrame.Sunken)
+                viz_layout = QVBoxLayout(viz_frame)
+                viz_layout.addWidget(QLabel("<h3>Top Teams Performance Visualizations</h3>"))
+                
+                # Create a tab widget for different charts
+                viz_tabs = QTabWidget()
+                
+                # 1. Win Rate Bar Chart
+                win_rate_tab = QWidget()
+                win_rate_layout = QVBoxLayout(win_rate_tab)
+                
+                from matplotlib.figure import Figure
+                from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+                
+                fig1 = Figure(figsize=(8, 4))
+                ax1 = fig1.add_subplot(111)
+                bars = ax1.bar(range(len(team_names)), win_rates, color='skyblue')
+                
+                # Add value labels on top of bars
+                for i, bar in enumerate(bars):
+                    height = bar.get_height()
+                    ax1.text(bar.get_x() + bar.get_width()/2, height + 1,
+                            f'{win_rates[i]:.1f}%',
+                            ha='center', va='bottom', rotation=0)
+                    
+                    # Color bars based on win rate
+                    if win_rates[i] >= 60:
+                        bar.set_color('green')
+                    elif win_rates[i] >= 50:
+                        bar.set_color('lightgreen')
+                    else:
+                        bar.set_color('salmon')
+                
+                ax1.set_title('Win Rates of Top Teams')
+                ax1.set_xlabel('Team')
+                ax1.set_ylabel('Win Rate (%)')
+                ax1.set_xticks(range(len(team_names)))
+                ax1.set_xticklabels(team_names, rotation=45, ha='right')
+                ax1.set_ylim(0, max(win_rates) + 10)  # Set y-axis with headroom
+                ax1.grid(axis='y', linestyle='--', alpha=0.7)
+                fig1.tight_layout()
+                
+                canvas1 = FigureCanvas(fig1)
+                canvas1.setMinimumHeight(350)
+                win_rate_layout.addWidget(canvas1)
+                
+                # 2. Wins vs Losses Stacked Bar Chart
+                wl_tab = QWidget()
+                wl_layout = QVBoxLayout(wl_tab)
+                
+                fig2 = Figure(figsize=(8, 4))
+                ax2 = fig2.add_subplot(111)
+                
+                # Create stacked bar chart for wins and losses
+                width = 0.8
+                bars1 = ax2.bar(range(len(team_names)), wins, width, label='Wins', color='green')
+                bars2 = ax2.bar(range(len(team_names)), losses, width, bottom=wins, label='Losses', color='red')
+                
+                # Add win-loss ratio labels
+                for i in range(len(team_names)):
+                    total = wins[i] + losses[i]
+                    ax2.text(i, total + 0.5, f'W/L: {wins[i]}-{losses[i]}', 
+                             ha='center', va='bottom', fontsize=9)
+                
+                ax2.set_title('Wins and Losses by Team')
+                ax2.set_xlabel('Team')
+                ax2.set_ylabel('Number of Matches')
+                ax2.set_xticks(range(len(team_names)))
+                ax2.set_xticklabels(team_names, rotation=45, ha='right')
+                ax2.legend()
+                ax2.grid(axis='y', linestyle='--', alpha=0.7)
+                fig2.tight_layout()
+                
+                canvas2 = FigureCanvas(fig2)
+                canvas2.setMinimumHeight(350)
+                wl_layout.addWidget(canvas2)
+                
+                # 3. Average Game Duration Chart
+                duration_tab = QWidget()
+                duration_layout = QVBoxLayout(duration_tab)
+                
+                fig3 = Figure(figsize=(8, 4))
+                ax3 = fig3.add_subplot(111)
+                bars3 = ax3.bar(range(len(team_names)), durations, color='purple')
+                
+                # Add duration labels
+                for i, bar in enumerate(bars3):
+                    height = bar.get_height()
+                    minutes = int(durations[i])
+                    seconds = int((durations[i] - minutes) * 60)
+                    ax3.text(bar.get_x() + bar.get_width()/2, height + 0.5,
+                            f'{minutes}:{seconds:02d}',
+                            ha='center', va='bottom', rotation=0)
+                
+                ax3.set_title('Average Game Duration by Team')
+                ax3.set_xlabel('Team')
+                ax3.set_ylabel('Duration (minutes)')
+                ax3.set_xticks(range(len(team_names)))
+                ax3.set_xticklabels(team_names, rotation=45, ha='right')
+                ax3.grid(axis='y', linestyle='--', alpha=0.7)
+                fig3.tight_layout()
+                
+                canvas3 = FigureCanvas(fig3)
+                canvas3.setMinimumHeight(350)
+                duration_layout.addWidget(canvas3)
+                
+                # Add the tabs to viz_tabs
+                viz_tabs.addTab(win_rate_tab, 'Win Rate')
+                viz_tabs.addTab(wl_tab, 'Wins vs Losses')
+                viz_tabs.addTab(duration_tab, 'Game Duration')
+                
+                # Add tabs to the viz layout
+                viz_layout.addWidget(viz_tabs)
+                
+                # Add the viz frame to the rankings tab
+                rankings_tab = self.team_rankings_table.parentWidget()
+                rankings_layout = rankings_tab.layout()
+                rankings_layout.addWidget(viz_frame)
             
         except Exception as e:
-            logger.error(f"Error calculating team statistics: {e}")
+            logger.error(f"Error calculating team rankings: {e}")
             import traceback
             logger.error(traceback.format_exc())
             QMessageBox.warning(
                 self, 
                 "Error", 
-                f"Error calculating team statistics: {str(e)}"
+                f"Error calculating team rankings: {str(e)}"
             )
     
     def show_head_to_head_stats(self):
@@ -3927,10 +4339,43 @@ class DotaMatchAnalyzerApp(QMainWindow):
         return modes.get(mode_id, f"Unknown Mode {mode_id}")
     
     def get_hero_name(self, hero_id):
-        """Get hero name from ID (placeholder function)"""
-        # In a real implementation, you would query the database for hero names
-        # For now, return a placeholder
-        return f"Hero {hero_id}"
+        """Get hero name from ID using Dota 2 hero mapping"""
+        # Dictionary mapping hero IDs to hero names
+        # This includes all current Dota 2 heroes with their OpenDota API IDs
+        heroes = {
+            1: "Anti-Mage", 2: "Axe", 3: "Bane", 4: "Bloodseeker", 5: "Crystal Maiden",
+            6: "Drow Ranger", 7: "Earthshaker", 8: "Juggernaut", 9: "Mirana", 10: "Morphling",
+            11: "Shadow Fiend", 12: "Phantom Lancer", 13: "Puck", 14: "Pudge", 15: "Razor",
+            16: "Sand King", 17: "Storm Spirit", 18: "Sven", 19: "Tiny", 20: "Vengeful Spirit",
+            21: "Windranger", 22: "Zeus", 23: "Kunkka", 25: "Lina", 26: "Lion",
+            27: "Shadow Shaman", 28: "Slardar", 29: "Tidehunter", 30: "Witch Doctor", 31: "Lich",
+            32: "Riki", 33: "Enigma", 34: "Tinker", 35: "Sniper", 36: "Necrophos",
+            37: "Warlock", 38: "Beastmaster", 39: "Queen of Pain", 40: "Venomancer", 41: "Faceless Void",
+            42: "Wraith King", 43: "Death Prophet", 44: "Phantom Assassin", 45: "Pugna", 46: "Templar Assassin",
+            47: "Viper", 48: "Luna", 49: "Dragon Knight", 50: "Dazzle", 51: "Clockwerk",
+            52: "Leshrac", 53: "Nature's Prophet", 54: "Lifestealer", 55: "Dark Seer", 56: "Clinkz",
+            57: "Omniknight", 58: "Enchantress", 59: "Huskar", 60: "Night Stalker", 61: "Broodmother",
+            62: "Bounty Hunter", 63: "Weaver", 64: "Jakiro", 65: "Batrider", 66: "Chen",
+            67: "Spectre", 68: "Ancient Apparition", 69: "Doom", 70: "Ursa", 71: "Spirit Breaker",
+            72: "Gyrocopter", 73: "Alchemist", 74: "Invoker", 75: "Silencer", 76: "Outworld Destroyer",
+            77: "Lycan", 78: "Brewmaster", 79: "Shadow Demon", 80: "Lone Druid", 81: "Chaos Knight",
+            82: "Meepo", 83: "Treant Protector", 84: "Ogre Magi", 85: "Undying", 86: "Rubick",
+            87: "Disruptor", 88: "Nyx Assassin", 89: "Naga Siren", 90: "Keeper of the Light", 91: "Io",
+            92: "Visage", 93: "Slark", 94: "Medusa", 95: "Troll Warlord", 96: "Centaur Warrunner",
+            97: "Magnus", 98: "Timbersaw", 99: "Bristleback", 100: "Tusk", 101: "Skywrath Mage",
+            102: "Abaddon", 103: "Elder Titan", 104: "Legion Commander", 105: "Techies", 106: "Ember Spirit",
+            107: "Earth Spirit", 108: "Underlord", 109: "Terrorblade", 110: "Phoenix", 111: "Oracle",
+            112: "Winter Wyvern", 113: "Arc Warden", 114: "Monkey King", 119: "Dark Willow", 120: "Pangolier",
+            121: "Grimstroke", 123: "Hoodwink", 126: "Void Spirit", 128: "Snapfire", 129: "Mars",
+            135: "Dawnbreaker", 136: "Marci", 137: "Primal Beast", 138: "Muerta"
+        }
+        
+        try:
+            # Try to convert hero_id to int in case it's passed as a string
+            hero_id = int(hero_id)
+            return heroes.get(hero_id, f"Unknown Hero ({hero_id})")
+        except (ValueError, TypeError):
+            return f"Unknown Hero ({hero_id})"
         
     def load_demo_matches(self):
         """Load demo match data when database is not available"""

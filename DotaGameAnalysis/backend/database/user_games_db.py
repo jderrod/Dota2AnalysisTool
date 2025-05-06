@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import datetime
+import time
 from sqlalchemy import (
     create_engine,
     Column,
@@ -22,9 +23,7 @@ import requests
 from contextlib import contextmanager
 import os
 from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
+import os.path
 
 # Configure logging - suppress console output as per user preference
 logging.basicConfig(
@@ -35,6 +34,20 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger("user_games_db")
+
+# Load environment variables from project root
+base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+env_path = os.path.join(base_dir, '.env')
+load_dotenv(dotenv_path=env_path)
+
+# Log if we found the .env file
+if os.path.exists(env_path):
+    logger.info(f"Loaded .env file from {env_path}")
+else:
+    logger.warning(f"No .env file found at {env_path}")
+
+# OpenDota API base URL
+OPENDOTA_API_BASE_URL = "https://api.opendota.com/api"
 
 # Initialize SQLAlchemy Base
 Base = declarative_base()
@@ -310,7 +323,9 @@ class UserDotaDatabase:
         # Steam API key
         self.api_key = os.getenv('STEAMAPI')
         if not self.api_key:
-            logger.warning("STEAMAPI key not found in environment variables")
+            logger.info("STEAMAPI key not found in environment variables, will use OpenDota API exclusively")
+        else:
+            logger.info("Steam API key loaded successfully, will use as fallback if needed")
     
     def close(self):
         """Close the database session"""
@@ -367,49 +382,134 @@ class UserDotaDatabase:
         return None
     
     def fetch_user_matches(self, user, limit=100):
-        """Fetch recent matches for a user from Dota 2 API"""
-        if not self.api_key:
-            logger.error("No Steam API key available")
-            return []
+        """Fetch recent matches for a user from OpenDota API
         
+        Args:
+            user: User object with account_id attribute (must be Steam32 ID)
+            limit: Maximum number of matches to fetch
+        
+        Returns:
+            List of match data dictionaries from OpenDota API
+        """
         if not user.account_id:
             logger.error(f"No account ID available for user {user.id}")
             return []
         
-        url = f"https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/v1/?key={self.api_key}&account_id={user.account_id}&matches_requested={limit}"
-        try:
-            response = requests.get(url)
-            if response.ok:
-                data = response.json()
-                if data.get('result', {}).get('status') == 1:
-                    return data['result']['matches']
-            logger.error(f"Failed to get match history: {response.status_code}")
-        except Exception as e:
-            logger.error(f"Error fetching match history: {str(e)}")
+        # Use the account_id directly as the Steam32 ID
+        # Log the account ID we're using
+        logger.info(f"Using Steam32 ID: {user.account_id}")
         
+        # Define API endpoints
+        matches_url = f"{OPENDOTA_API_BASE_URL}/players/{user.account_id}/matches?limit={limit}"
+        player_url = f"{OPENDOTA_API_BASE_URL}/players/{user.account_id}"
+        
+        logger.info(f"Validating player account with OpenDota API: {player_url}")
+        
+        try:
+            # First verify the player account exists
+            player_response = requests.get(player_url)
+            logger.info(f"Player API response status: {player_response.status_code}")
+            
+            if player_response.status_code != 200:
+                logger.error(f"Player profile request failed with status code: {player_response.status_code}")
+                logger.error(f"Response: {player_response.text[:200]}")
+                return []
+                
+            player_data = player_response.json()
+            
+            # Check if we got a valid profile response
+            if not player_data or player_data.get('profile') is None:
+                logger.warning(f"No valid player profile found for Steam32 ID: {user.account_id}")
+                logger.warning("This may indicate an invalid ID or private profile")
+                return []
+            else:
+                logger.info(f"Found player profile: {player_data['profile'].get('personaname', 'Unknown')}")
+            
+            # Now fetch the player's matches
+            logger.info(f"Fetching matches from OpenDota API: {matches_url}")
+            matches_response = requests.get(matches_url)
+            
+            if matches_response.status_code != 200:
+                logger.error(f"Matches request failed with status code: {matches_response.status_code}")
+                logger.error(f"Response: {matches_response.text[:200]}")
+                return []
+                
+            matches = matches_response.json()
+            
+            if not isinstance(matches, list):
+                logger.error(f"Expected match data to be a list, got {type(matches)}")
+                logger.error(f"Response: {str(matches)[:200]}")
+                return []
+                
+            logger.info(f"Successfully retrieved {len(matches)} matches for player {user.account_id}")
+            
+            if matches and len(matches) > 0:
+                logger.info(f"Sample match data: {json.dumps(matches[0], indent=2)[:500]}")
+            else:
+                logger.warning(f"No matches found for account ID: {user.account_id}")
+                logger.warning("This could be due to privacy settings or an inactive account")
+            
+            return matches
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Network error fetching match data: {str(e)}")
+        except json.JSONDecodeError as e:
+            logger.error(f"Error decoding API response: {str(e)}")
+        except Exception as e:
+            logger.error(f"Unexpected error fetching match data: {str(e)}")
+            import traceback
+            logger.error(traceback.format_exc())
+            
         return []
     
     def fetch_match_details(self, match_id):
-        """Fetch details for a specific match from Dota 2 API"""
-        if not self.api_key:
-            logger.error("No Steam API key available")
-            return None
+        """Fetch details for a specific match from OpenDota API
         
-        url = f"https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/v1/?key={self.api_key}&match_id={match_id}"
+        Args:
+            match_id: The Dota 2 match ID to fetch
+            
+        Returns:
+            Dictionary containing match details or None if an error occurs
+        """
+        url = f"{OPENDOTA_API_BASE_URL}/matches/{match_id}"
+        logger.info(f"Fetching match details from OpenDota API: {url}")
+        
         try:
-            response = requests.get(url)
-            if response.ok:
-                data = response.json()
-                if data.get('result'):
-                    return data['result']
-            logger.error(f"Failed to get match details: {response.status_code}")
+            logger.info(f"Making API request to: {url}")
+            response = requests.get(url, timeout=30)  # Adding timeout to prevent hanging
+            
+            if response.status_code == 200:
+                match_data = response.json()
+                logger.info(f"Successfully fetched details for match {match_id} from OpenDota API")
+                
+                # Validate that we have basic match data
+                if not match_data.get('match_id'):
+                    logger.warning(f"Received match data without a match_id for {match_id}")
+                    logger.debug(f"Response data: {str(match_data)[:500]}")
+                    return None
+                    
+                return match_data
+            elif response.status_code == 404:
+                logger.warning(f"Match {match_id} not found on OpenDota API")
+                return None
+            else:
+                logger.error(f"Failed to get match details: {response.status_code}")
+                logger.error(f"Response content: {response.text[:200]}")
+                return None
+                
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Network error fetching match {match_id}: {str(e)}")
+        except json.JSONDecodeError as e:
+            logger.error(f"Error decoding match data response for {match_id}: {str(e)}")
         except Exception as e:
-            logger.error(f"Error fetching match details: {str(e)}")
+            logger.error(f"Unexpected error fetching match {match_id}: {str(e)}")
+            import traceback
+            logger.error(traceback.format_exc())
         
         return None
     
     def process_match_details(self, match_details, user=None):
-        """Process match details into database tables (similar to process_match in pro database)"""
+        """Process match details from OpenDota API into database tables"""
         if not match_details:
             logger.error("No match details provided")
             return None
@@ -426,12 +526,17 @@ class UserDotaDatabase:
             return existing_match
         
         # Create UserMatch record
+        # Convert start_time from Unix timestamp to datetime
         start_time = datetime.datetime.fromtimestamp(match_details.get('start_time', 0))
         duration = match_details.get('duration', 0)
         
         # If user is provided, link the match to them
         user_id = user.id if user else None
         
+        # In OpenDota API, radiant_win is directly available
+        radiant_win = match_details.get('radiant_win', False)
+        
+        # Create UserMatch record with OpenDota data
         user_match = UserMatch(
             match_id=match_id,
             user_id=user_id,
@@ -441,8 +546,7 @@ class UserDotaDatabase:
             lobby_type=match_details.get('lobby_type', 0),
             radiant_score=match_details.get('radiant_score', 0),
             dire_score=match_details.get('dire_score', 0),
-            radiant_win=match_details.get('radiant_win', False),
-            match_data=match_details
+            radiant_win=radiant_win
         )
         
         self.session.add(user_match)
@@ -451,7 +555,7 @@ class UserDotaDatabase:
         for player in match_details.get('players', []):
             self._process_player(match_id, player)
         
-        # Process time series data if available
+        # Process time series data if available in OpenDota format
         if 'players' in match_details:
             for player in match_details['players']:
                 self._process_timeseries_data(match_id, player)
@@ -460,7 +564,7 @@ class UserDotaDatabase:
         if 'teamfights' in match_details:
             self._process_teamfights(match_id, match_details['teamfights'])
             
-        # Process draft timing if available
+        # Process draft timing if available - OpenDota uses 'picks_bans'
         if 'picks_bans' in match_details:
             self._process_draft_timing(match_id, match_details['picks_bans'])
         
@@ -468,56 +572,83 @@ class UserDotaDatabase:
         return user_match
     
     def _process_player(self, match_id, player_data):
-        """Process player data for a match (similar to process_player in pro database)"""
-        account_id = player_data.get('account_id')
-        player_slot = player_data.get('player_slot', 0)
-        is_radiant = player_slot < 128
+        """Process player data for a match
         
-        # Determine lane and role
-        lane = "unknown"
-        lane_role = player_data.get('lane_role', 0)
-        
-        if lane_role == 1:
-            lane = "safe"
-        elif lane_role == 2:
-            lane = "mid"
-        elif lane_role == 3:
-            lane = "off"
-        elif lane_role == 4:
-            lane = "jungle"
-        
-        role = "core" if lane_role in [1, 2, 3] else "support"
-        
-        # Create player record
-        player = UserMatchPlayer(
-            match_id=match_id,
-            account_id=str(account_id) if account_id else None,
-            player_slot=player_slot,
-            hero_id=player_data.get('hero_id', 0),
-            team=0 if is_radiant else 1,  # 0 for Radiant, 1 for Dire
-            lane=lane,
-            lane_role=lane_role,
-            role=role,
-            is_roaming=player_data.get('is_roaming', False),
-            kills=player_data.get('kills', 0),
-            deaths=player_data.get('deaths', 0),
-            assists=player_data.get('assists', 0),
-            gold_per_min=player_data.get('gold_per_min', 0),
-            xp_per_min=player_data.get('xp_per_min', 0),
-            last_hits=player_data.get('last_hits', 0),
-            denies=player_data.get('denies', 0),
-            item_0=player_data.get('item_0', 0),
-            item_1=player_data.get('item_1', 0),
-            item_2=player_data.get('item_2', 0),
-            item_3=player_data.get('item_3', 0),
-            item_4=player_data.get('item_4', 0),
-            item_5=player_data.get('item_5', 0),
-            purchase_log=player_data.get('purchase_log'),
-            lane_pos=player_data.get('lane_pos'),
-            kill_log=player_data.get('kills_log')
-        )
-        
-        self.session.add(player)
+        Args:
+            match_id: The match ID
+            player_data: Player data from the OpenDota API
+        """
+        if not player_data:
+            logger.warning(f"Empty player data received for match {match_id}")
+            return
+            
+        try:
+            # Extract account ID and player slot
+            account_id = player_data.get('account_id')
+            player_slot = player_data.get('player_slot', 0)
+            
+            logger.debug(f"Processing player data for match {match_id}, player_slot {player_slot}, account_id {account_id}")
+            
+            # Create player record with available data
+            # Only include fields that exist in the UserMatchPlayer schema
+            player = UserMatchPlayer(
+                match_id=match_id,
+                account_id=account_id,  # OpenDota API already uses the correct format
+                player_slot=player_slot,
+                hero_id=player_data.get('hero_id', 0),
+                kills=player_data.get('kills', 0),
+                deaths=player_data.get('deaths', 0),
+                assists=player_data.get('assists', 0),
+                gold_per_min=player_data.get('gold_per_min', 0),
+                xp_per_min=player_data.get('xp_per_min', 0),
+                last_hits=player_data.get('last_hits', 0),
+                denies=player_data.get('denies', 0),
+                hero_damage=player_data.get('hero_damage', 0),
+                tower_damage=player_data.get('tower_damage', 0),
+                hero_healing=player_data.get('hero_healing', 0),
+                level=player_data.get('level', 0),
+                total_gold=player_data.get('total_gold', 0),
+                total_xp=player_data.get('total_xp', 0),
+                neutral_kills=player_data.get('neutral_kills', 0),
+                tower_kills=player_data.get('tower_kills', 0),
+                courier_kills=player_data.get('courier_kills', 0),
+                lane_kills=player_data.get('lane_kills', 0),
+                hero_kills=player_data.get('hero_kills', 0),
+                observer_kills=player_data.get('observer_kills', 0),
+                sentry_kills=player_data.get('sentry_kills', 0),
+                stuns=player_data.get('stuns', 0.0),
+                actions_per_min=player_data.get('actions_per_min', 0.0),
+                
+                # Benchmarks if available
+                bench_gold_pct=player_data.get('benchmarks', {}).get('gold_per_min', {}).get('pct', 0.0),
+                bench_xp_pct=player_data.get('benchmarks', {}).get('xp_per_min', {}).get('pct', 0.0),
+                bench_kills_pct=player_data.get('benchmarks', {}).get('kills_per_min', {}).get('pct', 0.0),
+                bench_last_hits_pct=player_data.get('benchmarks', {}).get('last_hits_per_min', {}).get('pct', 0.0),
+                bench_hero_damage_pct=player_data.get('benchmarks', {}).get('hero_damage_per_min', {}).get('pct', 0.0),
+                bench_hero_healing_pct=player_data.get('benchmarks', {}).get('hero_healing_per_min', {}).get('pct', 0.0),
+                bench_tower_damage_pct=player_data.get('benchmarks', {}).get('tower_damage', {}).get('pct', 0.0),
+                
+                # Items
+                item_0=player_data.get('item_0', 0),
+                item_1=player_data.get('item_1', 0),
+                item_2=player_data.get('item_2', 0),
+                item_3=player_data.get('item_3', 0),
+                item_4=player_data.get('item_4', 0),
+                item_5=player_data.get('item_5', 0),
+                
+                # Additional JSON data if available
+                purchase_log=player_data.get('purchase_log'),
+                lane_pos=player_data.get('lane_pos'),
+                kill_log=player_data.get('kills_log')
+            )
+            
+            self.session.add(player)
+            return player
+            
+        except Exception as e:
+            logger.error(f"Error processing player data for match {match_id}: {str(e)}")
+            logger.debug(f"Player data: {str(player_data)[:200]}")
+            return None
     
     def _process_timeseries_data(self, match_id, player_data):
         """Process time-series data for a player (similar to process_timeseries_data in pro database)"""
@@ -595,44 +726,131 @@ class UserDotaDatabase:
     def _process_teamfights(self, match_id, teamfights_data):
         """Process teamfight data from match details"""
         if not teamfights_data:
+            logger.info(f"No teamfight data found for match {match_id}")
             return
-            
-        for tf_data in teamfights_data:
+        
+        logger.info(f"Processing {len(teamfights_data)} teamfights for match {match_id}")
+        
+        for i, tf_data in enumerate(teamfights_data):
             # Create teamfight record
+            start_time = tf_data.get('start', 0)
+            end_time = tf_data.get('end', 0)
+            last_death = tf_data.get('last_death', 0)
+            deaths = tf_data.get('deaths', 0)
+            
+            # Create and add the teamfight record
             teamfight = UserTeamFight(
                 match_id=match_id,
-                start=tf_data.get('start', 0),
-                end=tf_data.get('end', 0),
-                last_death=tf_data.get('last_death', 0),
-                deaths=tf_data.get('deaths', 0)
+                start=start_time,
+                end=end_time,
+                last_death=last_death,
+                deaths=deaths
             )
             
             self.session.add(teamfight)
-            self.session.flush()  # To get the teamfight ID
+            self.session.flush()  # Flush to get the ID
+            
+            # Get the assigned teamfight ID
+            teamfight_id = teamfight.id
             
             # Process player data for this teamfight
-            for player_slot, player_data in tf_data.get('players', {}).items():
-                if not player_data:
-                    continue
+            players_data = tf_data.get('players', [])
+            
+            if isinstance(players_data, dict):
+                # Handle dictionary format (Steam API)
+                for player_slot, player_data in players_data.items():
+                    if not player_data:
+                        continue
                     
-                player_slot = int(player_slot)  # Convert string keys to int if necessary
-                
-                tf_player = UserTeamFightPlayer(
-                    teamfight_id=teamfight.id,
-                    player_slot=player_slot,
-                    deaths=player_data.get('deaths', 0),
-                    buybacks=player_data.get('buybacks', 0),
-                    damage=player_data.get('damage', 0),
-                    healing=player_data.get('healing', 0),
-                    gold_delta=player_data.get('gold_delta', 0),
-                    xp_delta=player_data.get('xp_delta', 0),
-                    gold_start=player_data.get('gold_t', [0])[0] if player_data.get('gold_t') else 0,
-                    gold_end=player_data.get('gold_t', [0])[-1] if player_data.get('gold_t') else 0,
-                    xp_start=player_data.get('xp_t', [0])[0] if player_data.get('xp_t') else 0,
-                    xp_end=player_data.get('xp_t', [0])[-1] if player_data.get('xp_t') else 0
-                )
-                
-                self.session.add(tf_player)
+                    try:
+                        player_slot_int = int(player_slot)
+                        
+                        # Extract player data
+                        deaths = player_data.get('deaths', 0)
+                        buybacks = player_data.get('buybacks', 0)
+                        damage = player_data.get('damage', 0)
+                        healing = player_data.get('healing', 0)
+                        gold_delta = player_data.get('gold_delta', 0)
+                        xp_delta = player_data.get('xp_delta', 0)
+                        gold_t = player_data.get('gold_t', [])
+                        xp_t = player_data.get('xp_t', [])
+                        
+                        # Calculate gold and XP start/end if available
+                        gold_start = gold_t[0] if gold_t and len(gold_t) > 0 else 0
+                        gold_end = gold_t[-1] if gold_t and len(gold_t) > 0 else 0
+                        xp_start = xp_t[0] if xp_t and len(xp_t) > 0 else 0
+                        xp_end = xp_t[-1] if xp_t and len(xp_t) > 0 else 0
+                        
+                        # Create the player record
+                        tf_player = UserTeamFightPlayer(
+                            teamfight_id=teamfight_id,
+                            player_slot=player_slot_int,
+                            deaths=deaths,
+                            buybacks=buybacks,
+                            damage=damage,
+                            healing=healing,
+                            gold_delta=gold_delta,
+                            xp_delta=xp_delta,
+                            gold_start=gold_start,
+                            gold_end=gold_end,
+                            xp_start=xp_start,
+                            xp_end=xp_end
+                        )
+                        self.session.add(tf_player)
+                    except Exception as e:
+                        # Log error but continue processing other players
+                        logger.error(f"Error processing teamfight player from dict: {e}")
+                        continue
+            elif isinstance(players_data, list):
+                # Handle list format (OpenDota API)
+                for player_data in players_data:
+                    if not player_data:
+                        continue
+                    
+                    try:
+                        player_slot_int = player_data.get('player_slot', -1)
+                        if player_slot_int == -1:
+                            logger.warning(f"Missing player_slot in teamfight data: {player_data}")
+                            continue
+                        
+                        # Extract player data
+                        deaths = player_data.get('deaths', 0)
+                        buybacks = player_data.get('buybacks', 0)
+                        damage = player_data.get('damage', 0)
+                        healing = player_data.get('healing', 0)
+                        gold_delta = player_data.get('gold_delta', 0)
+                        xp_delta = player_data.get('xp_delta', 0)
+                        gold_t = player_data.get('gold_t', [])
+                        xp_t = player_data.get('xp_t', [])
+                        
+                        # Calculate gold and XP start/end if available
+                        gold_start = gold_t[0] if gold_t and len(gold_t) > 0 else 0
+                        gold_end = gold_t[-1] if gold_t and len(gold_t) > 0 else 0
+                        xp_start = xp_t[0] if xp_t and len(xp_t) > 0 else 0
+                        xp_end = xp_t[-1] if xp_t and len(xp_t) > 0 else 0
+                        
+                        # Create the player record
+                        tf_player = UserTeamFightPlayer(
+                            teamfight_id=teamfight_id,
+                            player_slot=player_slot_int,
+                            deaths=deaths,
+                            buybacks=buybacks,
+                            damage=damage,
+                            healing=healing,
+                            gold_delta=gold_delta,
+                            xp_delta=xp_delta,
+                            gold_start=gold_start,
+                            gold_end=gold_end,
+                            xp_start=xp_start,
+                            xp_end=xp_end
+                        )
+                        self.session.add(tf_player)
+                    except Exception as e:
+                        # Log error but continue processing other players
+                        logger.error(f"Error processing teamfight player from list: {e}")
+                        continue
+            else:
+                logger.warning(f"Unexpected players data format in teamfight: {type(players_data)}")
     
     def _process_draft_timing(self, match_id, draft_data):
         """Process draft timing data from match details"""
@@ -665,18 +883,44 @@ class UserDotaDatabase:
         """Get draft information for a match"""
         return self.session.query(UserDraftTiming).filter_by(match_id=match_id).order_by(UserDraftTiming.order).all()
     
-    def update_user_matches(self, user, limit=20):
-        """Fetch and update matches for a user"""
+    def update_user_matches(self, user, limit=100):
+        """Fetch and update matches for a user from OpenDota API"""
         if not user:
             logger.error("No user provided")
             return 0
             
+        logger.info(f"Starting update_user_matches for user {user.id}, account_id: {user.account_id}, limit: {limit}")
+        if not user.account_id:
+            logger.error("User has no account_id set, cannot fetch matches")
+            return 0
+            
+        # Fetch matches from OpenDota
+        logger.info(f"Fetching matches from OpenDota API for account_id: {user.account_id}")
         matches = self.fetch_user_matches(user, limit=limit)
-        logger.info(f"Found {len(matches)} matches for user {user.id}")
+        logger.info(f"Found {len(matches)} matches for user {user.account_id} via OpenDota API")
+        
+        if len(matches) == 0:
+            logger.warning(f"OpenDota API returned 0 matches for account ID: {user.account_id}")
+            logger.warning(f"This could be due to an invalid account ID, privacy settings, or API issues")
+            logger.info(f"Testing API endpoint: {OPENDOTA_API_BASE_URL}/players/{user.account_id}/matches?limit=5")
+            try:
+                test_url = f"{OPENDOTA_API_BASE_URL}/players/{user.account_id}/matches?limit=5"
+                response = requests.get(test_url)
+                logger.info(f"Test API call status code: {response.status_code}")
+                logger.info(f"Test API response: {response.text[:500]}")
+            except Exception as e:
+                logger.error(f"Error testing API endpoint: {e}")
+            return 0
         
         count = 0
-        for match_data in matches:
-            match_id = match_data['match_id']
+        for i, match_data in enumerate(matches):
+            # OpenDota API returns match_id directly
+            match_id = match_data.get('match_id')
+            if not match_id:
+                logger.warning(f"Match at index {i} has no match_id, skipping")
+                continue
+                
+            logger.info(f"Processing match {match_id} ({i+1}/{len(matches)})")
             
             # Check if match already exists
             existing_match = self.session.query(UserMatch).filter_by(match_id=match_id).first()
@@ -684,15 +928,29 @@ class UserDotaDatabase:
                 logger.debug(f"Match {match_id} already exists, skipping")
                 continue
             
-            # Fetch full match details
+            # Fetch full match details from OpenDota API
+            logger.info(f"Fetching details for match {match_id}")
             match_details = self.fetch_match_details(match_id)
-            if match_details:
+            if not match_details:
+                logger.error(f"Failed to get details for match {match_id}, skipping")
+                continue
+                
+            # Process match data from OpenDota format
+            logger.info(f"Processing details for match {match_id}")
+            try:
                 self.process_match_details(match_details, user)
                 count += 1
-                # Sleep to avoid API rate limits
-                time.sleep(1)
+                logger.info(f"Successfully processed match {match_id}")
                 
-        logger.info(f"Added {count} new matches for user {user.id}")
+                # Add a small delay between requests to be nice to the API
+                # OpenDota has a rate limit of 60 requests/minute for free tier
+                time.sleep(1.5)  # slightly longer delay for free API tier
+            except Exception as e:
+                logger.error(f"Error processing match {match_id}: {e}")
+                import traceback
+                logger.error(traceback.format_exc())
+                
+        logger.info(f"Added {count} new matches for user {user.id} from OpenDota API")
         return count
     
     def get_user_matches(self, user, limit=20):
@@ -708,8 +966,9 @@ class UserDotaDatabase:
     def get_match_lane_statistics(self, match_id):
         """Get lane statistics for a match (similar to lane analysis in pro database)"""
         players = self.get_user_match_players(match_id)
-        radiant_players = [p for p in players if p.team == 0]
-        dire_players = [p for p in players if p.team == 1]
+        # Use player_slot to determine team (< 128 is Radiant)
+        radiant_players = [p for p in players if p.player_slot < 128]
+        dire_players = [p for p in players if p.player_slot >= 128]
         
         lanes = {}
         
@@ -723,8 +982,21 @@ class UserDotaDatabase:
                 "roam": None
             }
             
+            # Since we don't have lane attribute, assume lanes based on player_slot
+            # This is a simplified approach
             for player in team_players:
-                lane = player.lane
+                # Assign a lane based on player_slot
+                if player.player_slot % 5 == 0:
+                    lane = "safe"
+                elif player.player_slot % 5 == 1:
+                    lane = "mid"
+                elif player.player_slot % 5 == 2:
+                    lane = "off"
+                elif player.player_slot % 5 == 3:
+                    lane = "jungle"
+                else:
+                    lane = "roam"
+                    
                 if lane in lanes[team_name]:
                     lanes[team_name][lane] = player
         
@@ -759,7 +1031,20 @@ class UserDotaDatabase:
         lanes = {}
         
         for player in players:
-            lanes[player.player_slot] = player.lane
+            # Determine lane based on player slot
+            # This is a simplified approach as lane data isn't directly available
+            if player.player_slot % 5 == 0:
+                lane = "safe"
+            elif player.player_slot % 5 == 1:
+                lane = "mid"
+            elif player.player_slot % 5 == 2:
+                lane = "off"
+            elif player.player_slot % 5 == 3:
+                lane = "jungle"
+            else:
+                lane = "roam"
+                
+            lanes[player.player_slot] = lane
             
         return lanes
     
